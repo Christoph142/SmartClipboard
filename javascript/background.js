@@ -34,7 +34,7 @@ window.addEventListener("load", function(){
 				message.content.icon = "http://www.codog.de/SmartClipboard/icon16.png";
 			else message.content.icon = opera.extension.tabs.getSelected().faviconUrl;
 			clipboardcontent.unshift(message.content);
-			if(clipboardcontent.length>widget.preferences.max_entries){
+			if(clipboardcontent.length>(widget.preferences.max_entries?widget.preferences.max_entries:5)){
 				if(widget.preferences.trash_is_active=="1") trash.unshift(clipboardcontent.pop());
 				else clipboardcontent.pop();
 			}			
