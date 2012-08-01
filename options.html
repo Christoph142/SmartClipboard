@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<META HTTP-EQUIV="content-type" CONTENT="text/html; charset=utf-8">
+<html>
+<head>
+	<title>Smart Clipboard</title>
+    <link rel="stylesheet" type="text/css" href="options.css">
+    <script type="text/javascript" src="javascript/prefs.js"></script>
+    <!--script type="text/javascript" src="language.js"></script-->
+</head>
+
+<body onLoad="getprefs();">
+
+<header>
+	<img src="images/icon128.png">
+    <h1 id="widget-name">Smart Clipboard</h1>
+    <h3>by <a href="http://my.opera.com/christoph142/blog/" target="_blank" style="background-color:transparent;">Christoph142</a></h3>
+</header>
+
+<section>
+    <h3>Options</h3>
+    <!--<fieldset>
+    <p>Adjust the look and feel of Smart Clipboard the way you like it:<br></p>
+    
+    <input type="color" onChange="change('frame','backgroundColor',this.value,this);" id="frame.backgroundColor"><br>
+    <img name="choose_framepic" src="images/no_image.gif" class="choose" onClick="change('frame','backgroundImage','',this); document.getElementById('framepic_nr').value='0';">
+    <img name="choose_framepic" src="images/custom.jpg" class="choose" onClick="change('frame','backgroundImage','url(http://www.codog.de/SmartClipboard/test.jpg)',this); document.getElementById('framepic_nr').value='1';">
+    <img name="choose_framepic" src="images/frame1.png" class="choose" onClick="change('frame','backgroundImage','url('+this.src.split('/')[1]+')',this); document.getElementById('framepic_nr').value='2';">
+    <img name="choose_framepic" src="images/frame2.jpg" class="choose" onClick="change('frame','backgroundImage','url('+this.src.split('/')[1]+')',this); document.getElementById('framepic_nr').value='3';">
+    <img name="choose_framepic" src="images/frame3.jpg" class="choose" onClick="change('frame','backgroundImage','url('+this.src.split('/')[1]+')',this); document.getElementById('framepic_nr').value='4';">
+    
+    <input type="hidden" id="framepic" onChange="alert(this.value);">
+    <input type="hidden" id="framepic_nr" onChange="alert(this.value);">
+    
+    <div id="frame">
+    	<div id="content"></div>
+    </div>
+    
+    <img name="choose_contentpic" src="images/no_image.gif" class="choose" onClick="change('content','backgroundImage','',this); document.getElementById('contentpic_nr').value='0';">
+    <img name="choose_contentpic" src="images/bg1.jpg" class="choose" onClick="change('content','backgroundImage','url('+this.src.split('/')[1]+')',this); document.getElementById('contentpic_nr').value='1';">  
+    <input type="hidden" id="contentpic">
+    <input type="hidden" id="contentpic_nr">
+    </p>
+    </fieldset><br>-->
+    
+    <fieldset>
+    <p>
+    <label for="max_entries">Choose a key combination for opening the clipboard menu:</label>
+    <span style="white-space:nowrap;">
+    <select name="additional_key1" id="additional_key1" onChange="document.getElementById('key2_container').style.display=this.value==''?'none':'inline';">
+      <option value=""></option>
+      <option value="ctrlKey">Ctrl</option>
+      <option value="altKey" selected="selected">Alt</option>
+      <option value="shiftKey">Shift</option>
+      <option value="cmdKey">Cmd ⌘</option>
+    </select> +
+    <span style="display:none;" id="key2_container">
+        <select name="additional_key2" id="additional_key2">
+          <option value=""></option>
+          <option value="ctrlKey">Ctrl</option>
+          <option value="altKey">Alt</option>
+          <option value="shiftKey">Shift</option>
+          <option value="cmdKey">Cmd ⌘</option>
+        </select> +
+    </span>
+    <input type="text" id="menu_key" name="menu_key" value="A" style="width:80px; text-align:center;" onKeyDown="menu_key();"><br>
+    Note: the key shown <i>may</i> differ from what you pressed depending on the keyboard layout you're using. Nevertheless it got saved properly.
+    </span><br>
+    You can close the menu by hitting the Esc-Key
+    </p>
+    </fieldset><br>
+    
+    <fieldset>
+    <p>
+    <label for="max_entries">maximum number of history entries: </label>
+    <input type="number" max="100" min="1" id="max_entries" name="max_entries" value="5"><br>
+    <input type="checkbox" id="trash_is_active" name="trash_is_active" onClick="document.getElementById('trash_checkbox_container').style.height=this.checked?'20px':'0px';" checked="checked">
+    <label for="trash_is_active" onClick="document.getElementById('trash_checkbox_container').style.height=document.getElementById('trash_is_active').checked?'0px':'20px';">keep entries which exceed the maximum number in trash</label><br>
+    <input type="checkbox" id="clear_history_on_exit" name="clear_history_on_exit">
+    <label for="clear_history_on_exit">clear clipboard history when Opera is closed</label>
+    <div id="trash_checkbox_container" style="height:0px; -o-transition-duration:100ms; overflow:hidden; position:relative; top:-12px;">
+    <input type="checkbox" id="clear_trash_on_exit" name="clear_trash_on_exit" checked="checked">
+    <label for="clear_trash_on_exit">clear trash when Opera is closed</label>
+    </div>
+    </p>
+    </fieldset><br>
+    
+    <fieldset>
+    <p>
+    You can add frequently used texts in here to make them easily accessible for insertion via the "Custom Texts" tab in the clipboard menu:
+    <br><br>
+    <input type="text" id="custom_text_1_title" value="Title" class="custom_text"><br>
+    <textarea id="custom_text_1" class="custom_text"></textarea><br><br>
+    <input type="text" id="custom_text_2_title" value="Title" class="custom_text"><br>
+    <textarea id="custom_text_2" class="custom_text"></textarea><br><br>
+    <input type="text" id="custom_text_3_title" value="Title" class="custom_text"><br>
+    <textarea id="custom_text_3" class="custom_text"></textarea><br><br>
+    <input type="text" id="custom_text_4_title" value="Title" class="custom_text"><br>
+    <textarea id="custom_text_4" class="custom_text"></textarea><br><br>
+    <input type="text" id="custom_text_5_title" value="Title" class="custom_text"><br>
+    <textarea id="custom_text_5" class="custom_text"></textarea>
+    </p>
+    </fieldset>
+</section>
+
+<footer>
+    <p>Thanks for installing this extension. For feedback and questions don't hesitate to contact me directly :)<br><br></p>
+</footer>
+  
+</body>
+</html>

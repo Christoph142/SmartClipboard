@@ -1,0 +1,31 @@
+div.SmartClipboard{		color:#000; font:12px "lucida grande", "tahoma", "verdana", "arial", sans-serif normal;
+						text-decoration:none; text-transform:none; }
+div.SmartClipboard img{	display:inline; }
+div.SmartClipboard textarea{ color:#000; font:12px "lucida grande", "tahoma", "verdana", "arial", sans-serif;
+						padding:0px 5px 10px 5px; margin:0px; }
+
+div.clipboard_tab{		position:absolute; top:7px; height:23px; z-index:9997;
+						border-radius:5px 5px 0px 0px; padding:3px 10px 0px 10px; box-shadow:0 0 10px #000; cursor:pointer;
+						background-color:#FFF; background-image:url(http://www.codog.de/SmartClipboard/frame1.png); display:inline; }
+						
+div.clipboard_page{		position:absolute; top:30px; height:400px; left:10px; width:480px; z-index:9998;
+				 		background-color:#FFF; background-image:url(http://www.codog.de/SmartClipboard/frame1.png); box-shadow:0 0 10px #000;
+				 		overflow-y:auto; overflow-x:hidden; }
+						
+div.clipboard_entry{	width:460px; border:0px; padding:0px; margin:5px 10px 0px 10px; text-align:left; cursor:pointer; }
+ 
+#SmartClipboard_frame{  position:fixed; top:50%; height:440px; margin-top:-230px; left:50%; width:500px; margin-left:-250px; z-index:9996;
+						background-color:rgba(0,0,0,0.5); box-shadow:0 0 10px #000; overflow:hidden; border-radius:5px;
+						background-image:url(http://www.codog.de/SmartClipboard/frame1.png); }
+						
+#SmartClipboard{		z-index:9999; }
+
+#SmartClipboard_trash{ 	display:none; }
+#SmartClipboard_pretext{display:none; }
+#SmartClipboard_info{ 	display:none; text-align:center; }
+
+#clipboard_tab{			left:10px; width:auto; }
+#pretext_tab{			left:70px; width:auto; }
+#trash_tab{				left:165px; width:auto; }
+#info_tab{				right:40px; width:auto; }
+#close_tab{				right:10px; width:auto; background-color:#F63; }

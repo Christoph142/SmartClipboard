@@ -1,0 +1,15 @@
+Geht es euch auch manchmal so, dass ihr Daten in der Zwischenablage habt, aber noch etwas anderes kurz kopieren müsst?
+
+Mir ist es schon oft passiert, dass ich Daten versehentlich überschrieben habe und die Suche dann wieder von vorne los ging.
+
+Aber damit ist jetzt Schluss.
+
+Smart Clipboard fügt der Zwischenablage einen Verlauf hinzu. Braucht ihr einen älteren Eintrag, ruft einfach das Menü auf und holt ihn zurück :)
+
+
+Changelog:
+----------
+
+V 1.0
+---------
+Erstes Release
