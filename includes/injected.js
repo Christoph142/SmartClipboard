@@ -20,7 +20,7 @@ window.addEventListener('DOMContentLoaded', function(){
 	
 	// don't add a clipboard in IFrames, advertisements, etc.:
 	if (window.top != window.self) return;
-
+	
 	// add HTML:
 	var clipboard = document.createElement("div");
 	clipboard.id = "SmartClipboard_frame";
@@ -43,7 +43,8 @@ window.addEventListener('DOMContentLoaded', function(){
 	}
 }, false);
 
-window.addEventListener("copy", function(event){
+window.addEventListener("copy", on_copy, false);
+function on_copy(){
 	if(document.activeElement.className=="SmartClipboard_copy_inhibitor") return;
 	var message = {}; // {} = Object()
 	message.content = {};
@@ -57,13 +58,14 @@ window.addEventListener("copy", function(event){
 	message.content.time = new Date().toLocaleString();
 	opera.extension.postMessage(JSON.stringify(message));
 	//alert(event.clipboardData.getData("Text"));
-}, false);
+}
 
 window.addEventListener("keydown", function(event){ // handle key-combos:
 	
-	var k1 = widget.preferences.additional_key1;
-	var k2 = widget.preferences.additional_key2;
-	if((k1==""?1:event[k1]) && (k2==""?1:event[k2]) && event.keyCode == widget.preferences.menu_keycode)// Key combination out of options page 
+	var k1 = widget.preferences.additional_key1?widget.preferences.additional_key1:"altKey";
+	var k2 = widget.preferences.additional_key2?widget.preferences.additional_key2:"";
+	var menu_keycode = widget.preferences.menu_keycode?widget.preferences.menu_keycode:65;
+	if((k1==""?1:event[k1]) && (k2==""?1:event[k2]) && event.keyCode == menu_keycode)// Key combination out of options page 
 		show_clipboard("full");
 	
 	if(event.keyCode == 27) hide_clipboard();															// Esc
@@ -116,6 +118,10 @@ function quickmenu(){
 		}
 	}
 	
+	if((typeof document.body.oncopy) == "undefined"){	// Opera < 12.50 without copy-eventlistener:
+		if(window.event.keyCode == 67) on_copy();		// ctrl + c
+	}
+	
 	if(window.navigator.appVersion.indexOf("Mac")!=-1) var key_for_copy_paste = "cmdKey";
 	else var key_for_copy_paste = "ctrlKey";
 	if(!window.event[key_for_copy_paste]){ 		// Ctrl / Cmd released
@@ -150,7 +156,8 @@ function update_gui(which_part,content_from_bg){
 		if(which_part=="clipboard") document.getElementById("SmartClipboard").innerHTML = "";
 		else if(which_part=="trash")document.getElementById("SmartClipboard_trash").innerHTML = "";
 		else{						document.getElementById("SmartClipboard_pretext").innerHTML = "";
-									content_from_bg = JSON.parse(widget.preferences.customtext);
+									if(widget.preferences.customtext) content_from_bg = JSON.parse(widget.preferences.customtext);
+									else content_from_bg = [];
 		}
 		
 		for(i=0; i<content_from_bg.length; i++){
