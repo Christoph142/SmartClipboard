@@ -37,9 +37,11 @@ window.addEventListener('DOMContentLoaded', function(){
 	
 	try{ document.getElementsByTagName("head")[0].appendChild(js); }
 	catch(e){
-		var head = document.createElement("head");
-		head.appendChild(js);
-		document.body.appendChild(head);
+		try{
+			var head = document.createElement("head");
+			head.appendChild(js);
+			document.body.appendChild(head);
+		}catch(e){ /* SVGs don't have body/head-section */ }
 	}
 }, false);
 
@@ -193,9 +195,11 @@ function add_css_to_page(css){
 		
 		try{ document.getElementsByTagName("head")[0].appendChild(style); }
 		catch(e){
-			var head = document.createElement("head");
-			head.appendChild(style);
-			document.body.appendChild(head);
+			try{
+				var head = document.createElement("head");
+				head.appendChild(style);
+				document.body.appendChild(head);
+			}catch(e){ /* SVGs don't have body/head-section */ }
 		}
 	}
 	else window.setTimeout(function(){add_css_to_page(css);},200);
