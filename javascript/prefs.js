@@ -15,7 +15,7 @@ window.addEventListener("change",function(event){
 		widget.preferences.customtext = JSON.stringify(custom_text);
 		var message = {};
 		message.todo = "customtext";
-		opera.extension.postMessage(JSON.stringify(message));
+		opera.extension.postMessage(message);
 	}
 	
 	if(event.target.type=="checkbox") 	widget.preferences[event.target.id] = event.target.checked?1:0;
@@ -128,5 +128,5 @@ function menu_key(){
 	// and make the background.js request all tabs to reload so the new keycombo takes effect:
 	var message = {};
 	message.todo = "reload";
-	opera.extension.postMessage(JSON.stringify(message));
+	opera.extension.postMessage(message);
 }
