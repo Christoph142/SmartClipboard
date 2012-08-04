@@ -19,7 +19,7 @@ window.addEventListener("load", function(){
 		var msg = {};
 		msg.todo = "css";
 		msg.content = req.responseText;
-		event.source.postMessage(JSON.stringify(msg));
+		event.source.postMessage(msg);
 		
 		send_to_gui("update",clipboardcontent);
 		send_to_gui("trash",trash);
@@ -27,20 +27,21 @@ window.addEventListener("load", function(){
 	}
 	
 	opera.extension.onmessage = function(event){
-		var message = JSON.parse(event.data);
+		var message = event.data;
 		
 		if(message.todo == "add"){
 			if(opera.extension.tabs.getSelected().faviconUrl=="")
 				message.content.icon = "http://www.codog.de/SmartClipboard/icon16.png";
 			else message.content.icon = opera.extension.tabs.getSelected().faviconUrl;
-			clipboardcontent.unshift(message.content);
-			if(clipboardcontent.length>(widget.preferences.max_entries?widget.preferences.max_entries:5)){
-				if(widget.preferences.trash_is_active=="1") trash.unshift(clipboardcontent.pop());
-				else clipboardcontent.pop();
-			}			
+			clipboardcontent.unshift(message.content);	
+		}
+		else if(message.todo == "movetop"){
+			if(message.element[0]=="c") clipboardcontent.unshift(clipboardcontent.splice(message.element[5]-0,1)[0]);
+			else if(message.element[0]=="t") clipboardcontent.unshift(trash.splice(message.element[5]-0,1)[0]);
+			else clipboardcontent.unshift(JSON.parse(widget.preferences.customtext)[message.element[5]-0]);
 		}
 		else if(message.todo == "reload"){
-			opera.extension.broadcastMessage(JSON.stringify(message)); // forward reload request to all tabs
+			opera.extension.broadcastMessage(message); // forward reload request to all tabs
 			return; // prevent send_to_gui(); and following to be executed
 		}
 		else if(message.todo == "customtext"){
@@ -48,6 +49,10 @@ window.addEventListener("load", function(){
 			return;
 		}
 		
+		if(clipboardcontent.length>(widget.preferences.max_entries?widget.preferences.max_entries:5)){
+			if(widget.preferences.trash_is_active=="1") trash.unshift(clipboardcontent.pop());
+			else clipboardcontent.pop();
+		}	
 		send_to_gui("update",clipboardcontent);
 		if(widget.preferences.trash_is_active=="1") send_to_gui("trash",trash);
 		make_it_persistent();
@@ -68,5 +73,5 @@ function send_to_gui(todo, content){
 	var updated = {};
 	updated.todo = todo;
 	updated.content = content;
-	opera.extension.broadcastMessage(JSON.stringify(updated));
+	opera.extension.broadcastMessage(updated);
 }

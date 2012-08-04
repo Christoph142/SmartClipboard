@@ -47,18 +47,23 @@ window.addEventListener('DOMContentLoaded', function(){
 
 window.addEventListener("copy", on_copy, false);
 function on_copy(){
-	if(document.activeElement.className=="SmartClipboard_copy_inhibitor") return;
 	var message = {}; // {} = Object()
-	message.content = {};
-	message.todo = "add";
-	message.content.txt = String(window.getSelection());
-	if(message.content.txt==""){
-		var field = document.activeElement;
-		message.content.txt = field.value.substring(field.selectionStart,field.selectionEnd);
+	if(document.activeElement.className=="SmartClipboard_copy_inhibitor"){ // copying an element back from clipboard
+		message.todo = "movetop";
+		message.element = document.activeElement.id;
 	}
-	message.content.url = document.URL.split("?")[0].split("#")[0];
-	message.content.time = new Date().toLocaleString();
-	opera.extension.postMessage(JSON.stringify(message));
+	else{
+		message.content = {};
+		message.todo = "add";
+		message.content.txt = String(window.getSelection());
+		if(message.content.txt==""){
+			var field = document.activeElement;
+			message.content.txt = field.value.substring(field.selectionStart,field.selectionEnd);
+		}
+		message.content.url = document.URL.split("?")[0].split("#")[0];
+		message.content.time = new Date().toLocaleString();
+	}
+	opera.extension.postMessage(message);
 	//alert(event.clipboardData.getData("Text"));
 }
 
@@ -91,7 +96,7 @@ window.addEventListener("keydown", function(event){ // handle key-combos:
 }, false);
 
 opera.extension.onmessage = function(event){ // Communication with background-script:
-	var msg_from_bg = JSON.parse(event.data);
+	var msg_from_bg = event.data;
 	if		(msg_from_bg.todo == "update") 		update_gui("clipboard",msg_from_bg.content);
 	else if (msg_from_bg.todo == "trash") 		update_gui("trash",msg_from_bg.content);
 	else if (msg_from_bg.todo == "customtext")	update_gui("customtext",msg_from_bg.content);
@@ -163,9 +168,9 @@ function update_gui(which_part,content_from_bg){
 		}
 		
 		for(i=0; i<content_from_bg.length; i++){
-			if(which_part=="clipboard") var entry_id = i;
-			else if(which_part=="trash")var entry_id = "t"+i;
-			else						var entry_id = "p"+i;
+			if(which_part=="clipboard") var entry_id = "c_SC_"+i;
+			else if(which_part=="trash")var entry_id = "t_SC_"+i;
+			else						var entry_id = "p_SC_"+i;
 			
 			var entry = document.createElement("div");
 			entry.className = "clipboard_entry";
