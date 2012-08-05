@@ -36,9 +36,9 @@ window.addEventListener("load", function(){
 			clipboardcontent.unshift(message.content);	
 		}
 		else if(message.todo == "movetop"){
-			if(message.element[0]=="c") clipboardcontent.unshift(clipboardcontent.splice(message.element[5]-0,1)[0]);
-			else if(message.element[0]=="t") clipboardcontent.unshift(trash.splice(message.element[5]-0,1)[0]);
-			else clipboardcontent.unshift(JSON.parse(widget.preferences.customtext)[message.element[5]-0]);
+			if(message.element[0]=="c") clipboardcontent.unshift(clipboardcontent.splice(message.element.split("_")[2]-0,1)[0]);
+			else if(message.element[0]=="t") clipboardcontent.unshift(trash.splice(message.element.split("_")[2]-0,1)[0]);
+			else clipboardcontent.unshift(JSON.parse(widget.preferences.customtext)[message.element.split("_")[2]-0]);
 		}
 		else if(message.todo == "reload"){
 			opera.extension.broadcastMessage(message); // forward reload request to all tabs
