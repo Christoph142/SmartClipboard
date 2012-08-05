@@ -48,18 +48,18 @@
     <span style="white-space:nowrap;">
     <select name="additional_key1" id="additional_key1" onChange="document.getElementById('key2_container').style.display=this.value==''?'none':'inline';">
       <option value=""></option>
-      <option value="ctrlKey">Ctrl</option>
-      <option value="altKey" selected="selected">Alt</option>
-      <option value="shiftKey">Shift</option>
-      <option value="cmdKey">Cmd ⌘</option>
+      <option value="altKey">Alt</option>
+      <option value="shiftKey" selected="selected">Shift</option>
+      <!--option value="ctrlKey">Ctrl</option>
+      <option value="cmdKey">Cmd ⌘</option-->
     </select> +
     <span style="display:none;" id="key2_container">
         <select name="additional_key2" id="additional_key2">
           <option value=""></option>
-          <option value="ctrlKey">Ctrl</option>
-          <option value="altKey">Alt</option>
+          <option value="altKey" selected="selected">Alt</option>
           <option value="shiftKey">Shift</option>
-          <option value="cmdKey">Cmd ⌘</option>
+          <!--option value="ctrlKey">Ctrl</option>
+          <option value="cmdKey">Cmd ⌘</option-->
         </select> +
     </span>
     <input type="text" id="menu_key" name="menu_key" value="A" style="width:80px; text-align:center;" onKeyDown="menu_key();">
@@ -98,6 +98,27 @@
     <textarea id="custom_text_4" class="custom_text"></textarea><br><br>
     <input type="text" id="custom_text_5_title" value="Title" class="custom_text"><br>
     <textarea id="custom_text_5" class="custom_text"></textarea>
+    </p>
+    </fieldset><br>
+    
+    <fieldset>
+    <p>
+    <h4>(i) How do I use this extension?</h4>
+    There are two ways:<br>
+    <table>
+    	<tr>
+        	<td style="vertical-align:top;"><b>1.</b></td>
+            <td><b>The slim mode</b><br>
+            If you're using keyboard commands to paste something you will find this very useful:<br>
+            if you press Ctrl (Cmd on a Mac) and hit "v", it'll work just like it used to be, but if you keep Ctrl pressed and hit "v" multiple times, the Smart Clipboard menu will pop up and toggle through your history. If you reached the entry you need to paste, hit "c" (still holding Ctrl/Cmd) and you will see this entry moving to the top. It is now active again and you can insert it wherever you need it</td>
+        </tr>
+        <tr>
+        	<td style="vertical-align:top;"><b>2.</b></td>
+            <td><b>The full mode</b><br>
+            You can access it by pressing Shift+Alt+A (as you have probably seen you can adjust this key combination at the top). The menu will then stay open until you hit Ctrl/Cmd or Esc or click the "X" in the upper right corner of the Smart Clipboard menu. In this mode you can select the entries (history, trash as well as custom text snippets you saved here in the options) you want with the mouse. Then press Ctrl/Cmd+c to make the chosen entry active.<br>
+    <i>Note: if you're using Opera 12.50+ you can also rightclick and choose "copy"</i></td>
+    	</tr>
+    </table>
     </p>
     </fieldset>
 </section>
