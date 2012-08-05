@@ -7,4 +7,4 @@ Well it did happen to me a lot of times. But that's over now.
 Smart Clipboard adds a history to your clipboard. So if you need an older entry just go ahead, open the menu and get it back :)
 
 
-Go get it @ https://addons.opera.com/extensions/details/###TBA###/
+Go get it @ https://addons.opera.com/extensions/details/smart-clipboard/
