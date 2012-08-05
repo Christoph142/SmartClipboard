@@ -45,6 +45,7 @@ window.addEventListener('DOMContentLoaded', function(){
 	}
 }, false);
 
+window.addEventListener("cut", on_copy, false);
 window.addEventListener("copy", on_copy, false);
 function on_copy(){
 	var message = {}; // {} = Object()
@@ -128,7 +129,7 @@ function quickmenu(){
 	}
 	
 	if((typeof document.body.oncopy) == "undefined"){	// Opera < 12.50 without copy-eventlistener:
-		if(window.event.keyCode == 67) on_copy();		// ctrl + c
+		if(window.event.keyCode == 67 || window.event.keyCode == 88) on_copy();		// ctrl + c / x
 	}
 	
 	if(window.navigator.appVersion.indexOf("Mac")!=-1) var key_for_copy_paste = "cmdKey";
