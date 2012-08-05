@@ -16,7 +16,7 @@ h3			{ margin-bottom:5px; }
 fieldset	{ border:none; background:rgba(150,160,200,0.25); border-radius:2px; padding:10px 20px; }
 textarea	{ width:50%; height:50px; }
 input[value=Title]{ width:50%; }
-
+.key		{ padding:2px 7px; background-color:#EEE; border:1px solid #666; border-radius:5px; color:#666; font-size:12px; }
 .choose		{ width:100px; height:100px; cursor:pointer; margin:5px; box-shadow:0 0 10px rgba(0,0,0,0.5);
 			  -o-transition-duration:200ms; }
 .choose:hover{ -o-transform:scale(1.1,1.1); }
@@ -24,10 +24,3 @@ input[value=Title]{ width:50%; }
 #frame		{ position:relative; height:220px; left:50%; width:250px; margin:5px 0 10px -125px; z-index:9998;
 			  background-color:rgba(0,0,0,0.5); box-shadow:0 0 10px #000; border-radius:5px; }
 #bgpic		{ position:absolute; top:50%; height:200px; margin-top:-95px; left:50%; width:240px; margin-left:-120px; z-index:9999; background-color:#FFF; box-shadow:0 0 10px #000; overflow-y:auto; overflow-x:hidden; }
-
-#lang_container	{ height:0px; width:100%; overflow:visible; text-align:right; }
-#lang img		{ width:50px; cursor:pointer; box-shadow:0px 0px 4px #98b0c9; -o-transition:200ms; }
-#lang img:hover	{ box-shadow:0px 0px 4px #335341; -o-transform:scale(1.1,1.1); }
-#lang			{ overflow:hidden; -o-transition:300ms; padding:30px 50px; position:relative; z-index:99; }
-.done			{ height:2px; } /* 2px + 30 padding = flag height */
-.choose_lang	{ height:400px; }
