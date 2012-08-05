@@ -50,6 +50,7 @@ window.addEventListener("copy", on_copy, false);
 function on_copy(){
 	var message = {}; // {} = Object()
 	if(document.activeElement.className=="SmartClipboard_copy_inhibitor"){ // copying an element back from clipboard
+		v_pressed = 1; // cause element gets moved to top
 		message.todo = "movetop";
 		message.element = document.activeElement.id;
 	}
@@ -142,7 +143,6 @@ function quickmenu(){
 		if(element_saver!="") document.getElementById(element_saver).focus();
 		if(element_saver=="element_saver") document.getElementById(element_saver).id = "";
 		ctrl_pressed = 0;
-		v_pressed = 0;
 		window.removeEventListener("keyup", quickmenu, false);
 	}
 }
@@ -160,6 +160,7 @@ function show_clipboard(how){
 function hide_clipboard(){
 	document.getElementById("SmartClipboard_frame").style.display = "none";
 	document.getElementById("SmartClipboard").style.display = "inline";
+	v_pressed = 0;
 }
 
 function update_gui(which_part,content_from_bg){
@@ -199,6 +200,8 @@ function update_gui(which_part,content_from_bg){
 			entry_textarea.style = "width:100%; height:auto; color:#000; background-color:rgba(0,0,0,0); cursor:pointer; border:0px; overflow:hidden;";
 			entry_textarea.rows = 2;
 		}
+		
+		if(which_part=="clipboard")	document.getElementById("c_SC_0").click();
 	}
 	else window.setTimeout(function(){update_gui(which_part,content_from_bg);},200);
 }
