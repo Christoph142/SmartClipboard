@@ -10,11 +10,13 @@
 //                                                                                               //
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-var ready = 0;			// 1 = clipboard-gui is available
+var ready = 0;					// 1 = clipboard-gui is available
 var ctrl_pressed = 0;
 var v_pressed = 0;
-var element_saver;		// keep last active element
-var text_saver = "";	// and its text to revert its state, if v is pressed multiple times
+var element_saver;				// keep last active element before opening the menu
+var text_saver;					// its text
+var selectionstart_saver = "-1";// and the cursor start-
+var selectionend_saver;			// and end-position within it to revert its state, if v is pressed multiple times
 
 window.addEventListener('DOMContentLoaded', function(){
 	
@@ -26,7 +28,7 @@ window.addEventListener('DOMContentLoaded', function(){
 	clipboard.id = "SmartClipboard_frame";
 	clipboard.className = "SmartClipboard";
 	clipboard.style.display = "none"; // prevent gui from being visible before css is added to page
-	clipboard.innerHTML = "<div id='clipboard_tab' class='clipboard_tab' onclick='SmartClipboard_showpage(\"SmartClipboard\");'>History</div><div id='pretext_tab' class='clipboard_tab' onclick='SmartClipboard_showpage(\"SmartClipboard_pretext\");'>Custom Texts</div><div id='trash_tab' class='clipboard_tab' onclick='SmartClipboard_showpage(\"SmartClipboard_trash\");'>Trash</div><div id='info_tab' class='clipboard_tab' onclick='SmartClipboard_showpage(\"SmartClipboard_info\");'>Info</div><div id='close_tab' class='clipboard_tab' onclick='document.getElementById(\"SmartClipboard_frame\").style.display = \"none\"; document.getElementById(\"SmartClipboard\").style.display = \"inline\";'>X</div><div id='SmartClipboard' class='clipboard_page'></div><div id='SmartClipboard_trash' class='clipboard_page'></div><div id='SmartClipboard_pretext' class='clipboard_page'><div id='pretext_control'>header</div><div id='pretext_entries'>body</div></div><div id='SmartClipboard_info' class='clipboard_page'><p><img src=\"http://www.codog.de/SmartClipboard/icon128.png\"><br><br><b style='font-size:20px;'>Smart Clipboard</b><br>by <a href=\"http://my.opera.com/christoph142/blog\" target=\"_blank\">Christoph142</a><br><br>If you like this extension please<br><a href='https://addons.opera.com/extensions/details/smart-clipboard#feedback-container' target='_blank' class='button'>rate it</a> & <a href='https://addons.opera.com/extensions/details/smart-clipboard/?reports#feedback-container' target='_blank' class='button'>report bugs</a><br>Thanks :)</p></div>";
+	clipboard.innerHTML = "<div id='clipboard_tab' class='clipboard_tab' onclick='SmartClipboard_showpage(\"SmartClipboard\");'>History</div><div id='pretext_tab' class='clipboard_tab' onclick='SmartClipboard_showpage(\"SmartClipboard_pretext\");'>Custom Texts</div><div id='trash_tab' class='clipboard_tab' onclick='SmartClipboard_showpage(\"SmartClipboard_trash\");'>Trash</div><div id='info_tab' class='clipboard_tab' onclick='SmartClipboard_showpage(\"SmartClipboard_info\");'>Info</div><div id='close_tab' class='clipboard_tab'>X</div><div id='SmartClipboard' class='clipboard_page'></div><div id='SmartClipboard_trash' class='clipboard_page'></div><div id='SmartClipboard_pretext' class='clipboard_page'><div id='pretext_control'>header</div><div id='pretext_entries'>body</div></div><div id='SmartClipboard_info' class='clipboard_page'><p><img src=\"http://www.codog.de/SmartClipboard/icon128.png\"><br><br><b style='font-size:20px;'>Smart Clipboard</b><br>by <a href=\"http://my.opera.com/christoph142/blog\" target=\"_blank\">Christoph142</a><br><br>If you like this extension please<br><a href='https://addons.opera.com/extensions/details/smart-clipboard#feedback-container' target='_blank' class='button'>rate it</a> & <a href='https://addons.opera.com/extensions/details/smart-clipboard/?reports#feedback-container' target='_blank' class='button'>report bugs</a><br>Thanks :)</p></div>";
 	
 	try{ document.body.appendChild(clipboard); ready = 1; }catch(e){opera.postError("failed to append clipboard");}
 	
@@ -43,6 +45,8 @@ window.addEventListener('DOMContentLoaded', function(){
 			document.body.appendChild(head);
 		}catch(e){ /* SVGs don't have body/head-section */ }
 	}
+	
+	if(ready==1) document.getElementById("close_tab").addEventListener("click", hide_clipboard, false);
 }, false);
 
 window.addEventListener("cut", on_copy, false);
@@ -75,28 +79,36 @@ window.addEventListener("keydown", function(event){ // handle key-combos:
 	var k1 = widget.preferences.additional_key1?widget.preferences.additional_key1:"shiftKey";
 	var k2 = widget.preferences.additional_key2?widget.preferences.additional_key2:"altKey";
 	var menu_keycode = widget.preferences.menu_keycode?widget.preferences.menu_keycode:65;
-	if((k1==""?1:event[k1]) && (k2==""?1:event[k2]) && event.keyCode == menu_keycode)// Key combination out of options page 
+	if((k1==""?1:event[k1]) && (k2==""?1:event[k2]) && event.keyCode == menu_keycode){			// Key combination out of options page 
+		store_focused_element();
 		show_clipboard("full");
+	}
 	
-	if(event.keyCode == 27) hide_clipboard();															// Esc
-	
-	if(window.navigator.appVersion.indexOf("Mac")!=-1) var key_for_copy_paste = "cmdKey";				// "Mac"
-	else var key_for_copy_paste = "ctrlKey";															// "Win", "X11", "Linux"
-	if(event[key_for_copy_paste] && ctrl_pressed==0){													// Ctrl / Cmd
+	if(window.navigator.appVersion.indexOf("Mac")!=-1) var key_for_copy_paste = "cmdKey";		// "Mac"
+	else var key_for_copy_paste = "ctrlKey";													// "Win", "X11", "Linux"
+	if(event[key_for_copy_paste] && ctrl_pressed==0){											// Ctrl / Cmd
 		ctrl_pressed = 1;
-		// save content of current form to reverse insertion if v is pressed 2x or more:
-		if(document.activeElement.type=="text"||document.activeElement.type=="textarea"){
-			if(document.activeElement.id == ""){
-				document.activeElement.id = "element_saver";
-				element_saver = "element_saver";
-			}
-			else element_saver = document.activeElement.id;
-			text_saver = document.activeElement.value;
-		}
-		else element_saver = ""; // if it's empty, there's no content which has to be copied back later
+		store_focused_element();
 		window.addEventListener("keyup", quickmenu, false);
 	}
+	
+	if(event.keyCode == 27) hide_clipboard();													// Esc
 }, false);
+
+function store_focused_element(){
+	// save element in focus (and its content, if it's an input/textarea) to reverse focus & insertion if v is pressed 2x or more:
+	if(document.activeElement.id == ""){
+		document.activeElement.id = "element_saver";
+		element_saver = "element_saver";
+	}
+	else element_saver = document.activeElement.id;
+	if(document.activeElement.selectionStart && document.activeElement.type!="password"){
+		text_saver = document.activeElement.value;
+		selectionstart_saver = document.activeElement.selectionStart;
+		selectionend_saver = document.activeElement.selectionEnd;
+	}
+	else selectionstart_saver = "-1"; // there's no content which has to be copied back later
+}
 
 opera.extension.onmessage = function(event){ // Communication with background-script:
 	var msg_from_bg = event.data;
@@ -111,11 +123,7 @@ opera.extension.onmessage = function(event){ // Communication with background-sc
 function quickmenu(){
 	if(window.event.keyCode == 86){
 		v_pressed++;
-		if(v_pressed==2){
-			show_clipboard("slim");
-			// restore previous state of fields:
-			if(element_saver!="") document.getElementById(element_saver).value = text_saver;
-		}
+		if(v_pressed==2) show_clipboard("slim");
 		if(v_pressed>=2){
 			try{
 				document.getElementById("c_SC_"+(v_pressed-1)).parentNode.click();
@@ -137,14 +145,16 @@ function quickmenu(){
 	if(window.navigator.appVersion.indexOf("Mac")!=-1) var key_for_copy_paste = "cmdKey";
 	else var key_for_copy_paste = "ctrlKey";
 	if(!window.event[key_for_copy_paste]){ // Ctrl/Cmd released
-		if(document.getElementById("clipboard_tab").style.display=="none"){ // if in slim mode
+		if(document.getElementById("SmartClipboard_frame").style.display=="none"){ // if menu wasn't open:
+			if(element_saver=="element_saver") document.getElementById(element_saver).removeAttribute("id");
+		}
+		else if(document.getElementById("clipboard_tab").style.display=="none"){ // if in slim mode
 			hide_clipboard();
 			for(i=0;i<document.getElementsByClassName("clipboard_tab").length;i++){
 				document.getElementsByClassName("clipboard_tab")[i].style.display = "inline";
 			}
-			if(element_saver!="") document.getElementById(element_saver).focus();
-			if(element_saver=="element_saver") document.getElementById(element_saver).id = "";
 		}
+		v_pressed = 0;
 		ctrl_pressed = 0;
 		window.removeEventListener("keyup", quickmenu, false);
 	}
@@ -153,6 +163,7 @@ function quickmenu(){
 function show_clipboard(how){
 	if(ready==1){
 		if(how=="slim"){
+			if(text_saver!="##_SC_NoInputElement_##") document.getElementById(element_saver).value = text_saver; // undo paste (1. press of "v")
 			for(i=0;i<document.getElementsByClassName("clipboard_tab").length;i++){
 				document.getElementsByClassName("clipboard_tab")[i].style.display = "none";
 			}
@@ -164,6 +175,14 @@ function hide_clipboard(){
 	document.getElementById("SmartClipboard_frame").style.display = "none";
 	document.getElementById("SmartClipboard").style.display = "inline";
 	v_pressed = 0;
+	
+	// restore focus:
+	document.getElementById(element_saver).focus();
+	if(selectionstart_saver!="-1"){
+		document.getElementById(element_saver).selectionStart = selectionstart_saver-0;
+		document.getElementById(element_saver).selectionEnd = selectionend_saver-0;
+	}
+	if(element_saver=="element_saver") document.getElementById(element_saver).removeAttribute("id");
 }
 
 function update_gui(which_part,content_from_bg){
