@@ -173,6 +173,7 @@ function show_clipboard(how){
 function hide_clipboard(){
 	document.getElementById("SmartClipboard_frame").style.display = "none";
 	document.getElementById("SmartClipboard").style.display = "inline";
+	document.getElementById("c_SC_"+(v_pressed==0?0:v_pressed-1)).parentNode.parentNode.style.backgroundImage = "";
 	v_pressed = 0;
 	
 	// restore focus:
