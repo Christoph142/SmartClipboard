@@ -61,6 +61,7 @@ function on_copy(){
 		if(message.content.txt==""){
 			var field = document.activeElement;
 			message.content.txt = field.value.substring(field.selectionStart,field.selectionEnd);
+			if(message.content.txt=="") return; // don't save empty copies
 		}
 		message.content.url = document.URL.split("?")[0].split("#")[0];
 		message.content.time = new Date().toLocaleString();
