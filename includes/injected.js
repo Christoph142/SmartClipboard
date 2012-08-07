@@ -20,7 +20,7 @@ var selectionend_saver;			// and end-position within it to revert its state, if 
 
 window.addEventListener('DOMContentLoaded', function(){
 	
-	// don't add a clipboard in IFrames, advertisements, etc.:
+	// prevent multiple clipboard-UIs in IFrames, advertisements, etc.:
 	if (window.top != window.self) return;
 	
 	// add HTML:
@@ -75,7 +75,6 @@ function on_copy(){
 }
 
 window.addEventListener("keydown", function(event){ // handle key-combos:
-	
 	var k1 = widget.preferences.additional_key1?widget.preferences.additional_key1:"shiftKey";
 	var k2 = widget.preferences.additional_key2?widget.preferences.additional_key2:"altKey";
 	var menu_keycode = widget.preferences.menu_keycode?widget.preferences.menu_keycode:65;
@@ -102,7 +101,7 @@ function store_focused_element(){
 		element_saver = "element_saver";
 	}
 	else element_saver = document.activeElement.id;
-	if(document.activeElement.selectionStart && document.activeElement.type!="password"){
+	if(document.activeElement.selectionStart!=undefined && document.activeElement.type!="password"){
 		text_saver = document.activeElement.value;
 		selectionstart_saver = document.activeElement.selectionStart;
 		selectionend_saver = document.activeElement.selectionEnd;
