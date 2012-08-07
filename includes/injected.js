@@ -129,19 +129,21 @@ function quickmenu(){
 		}
 	}
 	
-	if((typeof document.body.oncopy) == "undefined"){	// Opera < 12.50 without copy-eventlistener:
-		if(window.event.keyCode == 67 || window.event.keyCode == 88) on_copy();		// ctrl + c / x
+	if((typeof document.body.oncopy) == "undefined"){							// Opera < 12.50 without copy-eventlistener:
+		if(window.event.keyCode == 67 || window.event.keyCode == 88) on_copy();	// ctrl + c / x
 	}
 	
 	if(window.navigator.appVersion.indexOf("Mac")!=-1) var key_for_copy_paste = "cmdKey";
 	else var key_for_copy_paste = "ctrlKey";
-	if(!window.event[key_for_copy_paste]){ 		// Ctrl / Cmd released
-		hide_clipboard();
-		for(i=0;i<document.getElementsByClassName("clipboard_tab").length;i++){
-			document.getElementsByClassName("clipboard_tab")[i].style.display = "inline";
+	if(!window.event[key_for_copy_paste]){ // Ctrl/Cmd released
+		if(document.getElementById("clipboard_tab").style.display=="none"){ // if in slim mode
+			hide_clipboard();
+			for(i=0;i<document.getElementsByClassName("clipboard_tab").length;i++){
+				document.getElementsByClassName("clipboard_tab")[i].style.display = "inline";
+			}
+			if(element_saver!="") document.getElementById(element_saver).focus();
+			if(element_saver=="element_saver") document.getElementById(element_saver).id = "";
 		}
-		if(element_saver!="") document.getElementById(element_saver).focus();
-		if(element_saver=="element_saver") document.getElementById(element_saver).id = "";
 		ctrl_pressed = 0;
 		window.removeEventListener("keyup", quickmenu, false);
 	}
@@ -187,7 +189,7 @@ function update_gui(which_part,content_from_bg){
 			entry.onclick = function(){
 				this.style.backgroundImage = entry_active;
 				this.childNodes[1].childNodes[0].select();
-				//document.execCommand('copy',true,null);
+				//document.execCommand('copy',false,null);
 			};
 			entry.innerHTML = "<div style='color:#777; white-space:nowrap; overflow:hidden;'><img src='"+content_from_bg[i].icon+"' style='border:none; width:16px; height:16px; margin:5px; vertical-align:middle;' /><span style='vertical-align:middle;'>"+content_from_bg[i].url+"</span></div><div><textarea id='"+entry_id+"' class='SmartClipboard_copy_inhibitor' readonly='readonly'></textarea></div>";
 			
