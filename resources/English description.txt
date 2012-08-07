@@ -8,6 +8,12 @@ Smart Clipboard adds a history to your clipboard. So if you need an older entry 
 Changelog:
 ----------
 
+v 1.1
+---------
+Ctrl + Cmd keys can be used for full mode key combination
+(!)Cursor is set back to where it used to be before opening the clipboard menu upon closing
+(!)no more empty copies
+
 v 1.0
 ---------
 Initial release
