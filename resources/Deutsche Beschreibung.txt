@@ -10,6 +10,14 @@ Smart Clipboard fügt der Zwischenablage einen Verlauf hinzu. Braucht ihr einen ä
 Changelog:
 ----------
 
+v 1.1
+---------
+Strg + Cmd können für den Menü-Aufruf verwendet werden
+Cursor wird nach dem Schließen des Menüs wieder an die Stelle zurück gesetzt, an der er vor dem Aufruf war
+keine leeren Einträge mehr
+(!)Zwischenablage kann aufgerufen werden, wenn ein IFrame Fokus hat
+mehrere Fehlerkorrekturen und Optimierungen
+
 V 1.0
 ---------
 Erstes Release
