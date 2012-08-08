@@ -28,26 +28,25 @@ window.addEventListener('DOMContentLoaded', function(){
 	clipboard.id = "SmartClipboard_frame";
 	clipboard.className = "SmartClipboard";
 	clipboard.style.display = "none"; // prevent gui from being visible before css is added to page
-	clipboard.innerHTML = "<div id='clipboard_tab' class='clipboard_tab' onclick='SmartClipboard_showpage(\"SmartClipboard\");'>History</div><div id='pretext_tab' class='clipboard_tab' onclick='SmartClipboard_showpage(\"SmartClipboard_pretext\");'>Custom Texts</div><div id='trash_tab' class='clipboard_tab' onclick='SmartClipboard_showpage(\"SmartClipboard_trash\");'>Trash</div><div id='info_tab' class='clipboard_tab' onclick='SmartClipboard_showpage(\"SmartClipboard_info\");'>Info</div><div id='close_tab' class='clipboard_tab'>X</div><div id='SmartClipboard' class='clipboard_page'></div><div id='SmartClipboard_trash' class='clipboard_page'></div><div id='SmartClipboard_pretext' class='clipboard_page'><div id='pretext_control'>header</div><div id='pretext_entries'>body</div></div><div id='SmartClipboard_info' class='clipboard_page'><p><img src=\"http://www.codog.de/SmartClipboard/icon128.png\"><br><br><b style='font-size:20px;'>Smart Clipboard</b><br>by <a href=\"http://my.opera.com/christoph142/blog\" target=\"_blank\">Christoph142</a><br><br>If you like this extension please<br><a href='https://addons.opera.com/extensions/details/smart-clipboard#feedback-container' target='_blank' class='button'>rate it</a> & <a href='https://addons.opera.com/extensions/details/smart-clipboard/?reports#feedback-container' target='_blank' class='button'>report bugs</a><br>Thanks :)</p></div>";
+	clipboard.innerHTML = "<div id='clipboard_tab' class='clipboard_tab'>History</div><div id='pretext_tab' class='clipboard_tab'>Custom Texts</div><div id='trash_tab' class='clipboard_tab'>Trash</div><div id='info_tab' class='clipboard_tab'>Info</div><div id='close_tab' class='clipboard_tab'>X</div><div id='SmartClipboard' class='clipboard_page'></div><div id='SmartClipboard_trash' class='clipboard_page'></div><div id='SmartClipboard_pretext' class='clipboard_page'><div id='pretext_control'>header</div><div id='pretext_entries'>body</div></div><div id='SmartClipboard_info' class='clipboard_page'><p><img src=\"http://www.codog.de/SmartClipboard/icon128.png\"><br><br><b style='font-size:20px;'>Smart Clipboard</b><br>by <a href=\"http://my.opera.com/christoph142/blog\" target=\"_blank\">Christoph142</a><br><br>If you like this extension please<br><a href='https://addons.opera.com/extensions/details/smart-clipboard#feedback-container' target='_blank' class='button'>rate it</a> & <a href='https://addons.opera.com/extensions/details/smart-clipboard/?reports#feedback-container' target='_blank' class='button'>report bugs</a><br>Thanks :)</p></div>";
 	
-	try{ document.body.appendChild(clipboard); ready = 1; }catch(e){opera.postError("failed to append clipboard");}
-	
-	// add JS:
-	var js = document.createElement("script");
-	js.type = "text/javascript";
-	js.innerHTML = "function SmartClipboard_showpage(which){ for(i=0;i<document.getElementsByClassName('clipboard_page').length;i++){ document.getElementsByClassName('clipboard_page')[i].style.display = 'none'; } document.getElementById(which).style.display = which=='SmartClipboard_info'?'table':'inline'; };"
-	
-	try{ document.getElementsByTagName("head")[0].appendChild(js); }
-	catch(e){
-		try{
-			var head = document.createElement("head");
-			head.appendChild(js);
-			document.body.appendChild(head);
-		}catch(e){ /* SVGs don't have body/head-section */ }
+	try{ document.body.appendChild(clipboard); ready = 1; }catch(e){ opera.postError("failed to append clipboard"); }
+
+	if(ready==1){
+		document.getElementById("clipboard_tab").addEventListener("click", function(){ showpage("SmartClipboard"); }, false);
+		document.getElementById("pretext_tab").addEventListener("click", function(){ showpage("SmartClipboard_pretext"); }, false);
+		document.getElementById("trash_tab").addEventListener("click", function(){ showpage("SmartClipboard_trash"); }, false);
+		document.getElementById("info_tab").addEventListener("click", function(){ showpage("SmartClipboard_info"); }, false);
+		document.getElementById("close_tab").addEventListener("click", hide_clipboard, false);
 	}
-	
-	if(ready==1) document.getElementById("close_tab").addEventListener("click", hide_clipboard, false);
 }, false);
+
+function showpage(which){
+	for(i=0;i<document.getElementsByClassName('clipboard_page').length;i++){
+		document.getElementsByClassName('clipboard_page')[i].style.display = 'none';
+	}
+	document.getElementById(which).style.display = which=='SmartClipboard_info'?'table':'inline';
+}
 
 window.addEventListener("cut", on_copy, false);
 window.addEventListener("copy", on_copy, false);
