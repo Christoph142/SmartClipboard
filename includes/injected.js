@@ -10,20 +10,26 @@
 //                                                                                               //
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-var ready = 0;					// 1 = clipboard-gui is available
+var ready = 0;					// 1 = clipboard-ui is available / iframe-redirects established
 var ctrl_pressed = 0;
 var v_pressed = 0;
 var element_saver;				// keep last active element before opening the menu
 var text_saver;					// its text
 var selectionstart_saver = "-1";// and the cursor start-
 var selectionend_saver;			// and end-position within it to revert its state, if v is pressed multiple times
+var doc = document;				// document (main window), window.top.document (iframe)
 
 window.addEventListener('DOMContentLoaded', function(){
 	
-	// prevent multiple clipboard-UIs in IFrames, advertisements, etc.:
-	if (window.top != window.self) return;
+	// prevent multiple clipboard-UIs in iframes, advertisements, etc. and redirect UI-commands to parent frame:
+	if (window.top != window.self){
+		try{ doc = window.top.document; }catch(e){ return; /* might be inaccessible due to security restrictions */ }
+		window.addEventListener("focus", function(){ v_pressed = 0;	ctrl_pressed = 0; }, false);
+		ready = 1;
+		return;
+	}
 	
-	// add HTML:
+	// add UI:
 	var clipboard = document.createElement("div");
 	clipboard.id = "SmartClipboard_frame";
 	clipboard.className = "SmartClipboard";
@@ -42,27 +48,27 @@ window.addEventListener('DOMContentLoaded', function(){
 }, false);
 
 function showpage(which){
-	for(i=0;i<document.getElementsByClassName('clipboard_page').length;i++){
-		document.getElementsByClassName('clipboard_page')[i].style.display = 'none';
+	for(i=0;i<doc.getElementsByClassName('clipboard_page').length;i++){
+		doc.getElementsByClassName('clipboard_page')[i].style.display = 'none';
 	}
-	document.getElementById(which).style.display = which=='SmartClipboard_info'?'table':'inline';
+	doc.getElementById(which).style.display = which=='SmartClipboard_info'?'table':'inline';
 }
 
 window.addEventListener("cut", on_copy, false);
 window.addEventListener("copy", on_copy, false);
 function on_copy(){
 	var message = {}; // {} = Object()
-	if(document.activeElement.className=="SmartClipboard_copy_inhibitor"){ // copying an element back from clipboard
+	if(doc.activeElement.className=="SmartClipboard_copy_inhibitor"){ // copying an element back from clipboard
 		v_pressed = 1; // cause element gets moved to top
 		message.todo = "movetop";
-		message.element = document.activeElement.id;
+		message.element = doc.activeElement.id;
 	}
 	else{
 		message.content = {};
 		message.todo = "add";
 		message.content.txt = String(window.getSelection());
 		if(message.content.txt==""){
-			var field = document.activeElement;
+			var field = doc.activeElement;
 			message.content.txt = field.value.substring(field.selectionStart,field.selectionEnd);
 			if(message.content.txt=="") return; // don't save empty copies
 		}
@@ -73,7 +79,7 @@ function on_copy(){
 	//alert(event.clipboardData.getData("Text"));
 }
 
-window.addEventListener("keydown", function(event){ // handle key-combos:
+window.addEventListener("keydown", function(event){ // handle key-combos:	
 	var k1 = widget.preferences.additional_key1?widget.preferences.additional_key1:"shiftKey";
 	var k2 = widget.preferences.additional_key2?widget.preferences.additional_key2:"altKey";
 	var menu_keycode = widget.preferences.menu_keycode?widget.preferences.menu_keycode:65;
@@ -100,6 +106,7 @@ function store_focused_element(){
 		element_saver = "element_saver";
 	}
 	else element_saver = document.activeElement.id;
+	
 	if(document.activeElement.selectionStart!=undefined && document.activeElement.type!="password"){
 		text_saver = document.activeElement.value;
 		selectionstart_saver = document.activeElement.selectionStart;
@@ -121,15 +128,18 @@ opera.extension.onmessage = function(event){ // Communication with background-sc
 function quickmenu(){
 	if(window.event.keyCode == 86){
 		v_pressed++;
+		if(v_pressed==1 && doc.getElementById("SmartClipboard_frame").style.display=="inline" && doc.getElementById("clipboard_tab").style.display=="none"){ // when menu got opened in slim mode within an iframe:
+			v_pressed = 3;
+		}
 		if(v_pressed==2) show_clipboard("slim");
 		if(v_pressed>=2){
 			try{
-				document.getElementById("c_SC_"+(v_pressed-1)).parentNode.click();
-				document.getElementById("c_SC_"+(v_pressed-2)).parentNode.parentNode.style.backgroundImage = "";
+				doc.getElementById("c_SC_"+(v_pressed-1)).parentNode.click();
+				doc.getElementById("c_SC_"+(v_pressed-2)).parentNode.parentNode.style.backgroundImage = "";
 			}catch(e){ /* last entry -> go back to first one */
 				try{
-					document.getElementById("c_SC_0").parentNode.click();
-					document.getElementById("c_SC_"+(v_pressed-2)).parentNode.parentNode.style.backgroundImage = "";
+					doc.getElementById("c_SC_0").parentNode.click();
+					doc.getElementById("c_SC_"+(v_pressed-2)).parentNode.parentNode.style.backgroundImage = "";
 					v_pressed = 1;
 				}catch(e){ /* no history available */ }
 			}
@@ -143,13 +153,13 @@ function quickmenu(){
 	if(window.navigator.appVersion.indexOf("Mac")!=-1) var key_for_copy_paste = "cmdKey";
 	else var key_for_copy_paste = "ctrlKey";
 	if(!window.event[key_for_copy_paste]){ // Ctrl/Cmd released
-		if(document.getElementById("SmartClipboard_frame").style.display=="none"){ // if menu wasn't open:
-			if(element_saver=="element_saver") document.getElementById(element_saver).removeAttribute("id");
+		if(doc.getElementById("SmartClipboard_frame").style.display=="none"){ // if menu wasn't open:
+			if(element_saver=="element_saver") doc.getElementById(element_saver).removeAttribute("id");
 		}
-		else if(document.getElementById("clipboard_tab").style.display=="none"){ // if in slim mode
+		else if(doc.getElementById("clipboard_tab").style.display=="none"){ // if in slim mode
 			hide_clipboard();
-			for(i=0;i<document.getElementsByClassName("clipboard_tab").length;i++){
-				document.getElementsByClassName("clipboard_tab")[i].style.display = "inline";
+			for(i=0;i<doc.getElementsByClassName("clipboard_tab").length;i++){
+				doc.getElementsByClassName("clipboard_tab")[i].style.display = "inline";
 			}
 		}
 		v_pressed = 0;
@@ -162,29 +172,31 @@ function show_clipboard(how){
 	if(ready==1){
 		if(how=="slim"){
 			if(text_saver!="##_SC_NoInputElement_##") document.getElementById(element_saver).value = text_saver; // undo paste (1. press of "v")
-			for(i=0;i<document.getElementsByClassName("clipboard_tab").length;i++){
-				document.getElementsByClassName("clipboard_tab")[i].style.display = "none";
+			for(i=0;i<doc.getElementsByClassName("clipboard_tab").length;i++){
+				doc.getElementsByClassName("clipboard_tab")[i].style.display = "none";
 			}
 		}
-		document.getElementById("SmartClipboard_frame").style.display = "inline";
+		doc.getElementById("SmartClipboard_frame").style.display = "inline";
 	}
 }
 function hide_clipboard(){
-	document.getElementById("SmartClipboard_frame").style.display = "none";
-	document.getElementById("SmartClipboard").style.display = "inline";
-	document.getElementById("c_SC_"+(v_pressed==0?0:v_pressed-1)).parentNode.parentNode.style.backgroundImage = "";
+	doc.getElementById("SmartClipboard_frame").style.display = "none";
+	doc.getElementById("SmartClipboard").style.display = "inline";
+	doc.getElementById("c_SC_"+(v_pressed==0?0:v_pressed-1)).parentNode.parentNode.style.backgroundImage = "";
 	v_pressed = 0;
-	
+
 	// restore focus:
-	document.getElementById(element_saver).focus();
+	doc.getElementById(element_saver).focus();
 	if(selectionstart_saver!="-1"){
-		document.getElementById(element_saver).selectionStart = selectionstart_saver-0;
-		document.getElementById(element_saver).selectionEnd = selectionend_saver-0;
+		doc.getElementById(element_saver).selectionStart = selectionstart_saver-0;
+		doc.getElementById(element_saver).selectionEnd = selectionend_saver-0;
 	}
-	if(element_saver=="element_saver") document.getElementById(element_saver).removeAttribute("id");
+	if(element_saver=="element_saver") doc.getElementById(element_saver).removeAttribute("id");
 }
 
 function update_gui(which_part,content_from_bg){
+	if(window.top != window.self) return;
+	
 	if(ready==1){
 		//if(window.navigator.userAgent.substr(window.navigator.userAgent.length-5,4)>=12.5)
 			var entry_active="-o-linear-gradient(left, rgba(0,0,0,0) 1%, rgba(180,255,100,0.9) 20%, rgba(180,255,100,0.9) 80%, rgba(0,0,0,0) 99%)";
@@ -228,7 +240,9 @@ function update_gui(which_part,content_from_bg){
 }
 
 function add_css_to_page(css){
-	if(document.readyState=="complete"){
+	if(window.top != window.self) return;
+	
+	if(document.readyState == "complete"){
 		var style = document.createElement("style");
 		style.setAttribute("type", "text/css");            
 		style.innerHTML = css;
