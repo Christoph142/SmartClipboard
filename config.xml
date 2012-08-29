@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<widget xmlns="http://www.w3.org/ns/widgets" id="https://github.com/Christoph142/SmartClipboard" viewmodes="minimized" version="1.0">
+<widget xmlns="http://www.w3.org/ns/widgets" id="https://github.com/Christoph142/SmartClipboard" viewmodes="minimized" version="1.1">
 
   <name>Smart Clipboard</name>
   <author>Christoph142</author>
-  <description xml:lang="en">history for the clipboard</description>
-  <description xml:lang="de">Verlauf für die Zwischenablage</description>
+  <description xml:lang="en">Makes your clipboard smarter</description>
+  <description xml:lang="de">Macht deine Zwischenablage smarter</description>
   <icon src="images/icon128.png"/>
   
 </widget>
