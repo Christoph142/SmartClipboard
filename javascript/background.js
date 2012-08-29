@@ -54,7 +54,7 @@ window.addEventListener("load", function(){
 			else clipboardcontent.pop();
 		}	
 		send_to_gui("update",clipboardcontent);
-		if(widget.preferences.trash_is_active=="1") send_to_gui("trash",trash);
+		if(widget.preferences.trash_is_active!="0") send_to_gui("trash",trash);
 		make_it_persistent();
 	}
 }, false);
