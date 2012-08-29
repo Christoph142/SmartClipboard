@@ -29,6 +29,9 @@ window.addEventListener('DOMContentLoaded', function(){
 		return;
 	}
 	
+	/*var external_data = document.createElement("textarea");
+	external_data.id = "SmartClipboard_externaldata";*/
+	
 	// add UI:
 	var clipboard = document.createElement("div");
 	clipboard.id = "SmartClipboard_frame";
@@ -36,7 +39,8 @@ window.addEventListener('DOMContentLoaded', function(){
 	clipboard.style.display = "none"; // prevent gui from being visible before css is added to page
 	clipboard.innerHTML = "<div id='clipboard_tab' class='clipboard_tab'>History</div><div id='pretext_tab' class='clipboard_tab'>Custom Texts</div><div id='trash_tab' class='clipboard_tab'>Trash</div><div id='info_tab' class='clipboard_tab'>Info</div><div id='close_tab' class='clipboard_tab'>X</div><div id='SmartClipboard' class='clipboard_page'></div><div id='SmartClipboard_trash' class='clipboard_page'></div><div id='SmartClipboard_pretext' class='clipboard_page'><div id='pretext_control'>header</div><div id='pretext_entries'>body</div></div><div id='SmartClipboard_info' class='clipboard_page'><p><img src=\"http://www.codog.de/SmartClipboard/icon128.png\"><br><br><b style='font-size:20px;'>Smart Clipboard</b><br>by <a href=\"http://my.opera.com/christoph142/blog\" target=\"_blank\">Christoph142</a><br><br>If you like this extension please<br><a href='https://addons.opera.com/extensions/details/smart-clipboard#feedback-container' target='_blank' class='button'>rate it</a> & <a href='https://addons.opera.com/extensions/details/smart-clipboard/?reports#feedback-container' target='_blank' class='button'>report bugs</a><br>Thanks :)</p></div>";
 	
-	try{ document.body.appendChild(clipboard); ready = 1; }catch(e){ opera.postError("failed to append clipboard"); }
+	try{ document.body.appendChild(clipboard);/* document.body.appendChild(external_data);*/ ready = 1; }
+	catch(e){ opera.postError("failed to append clipboard"); }
 
 	if(ready==1){
 		document.getElementById("clipboard_tab").addEventListener("click", function(){ showpage("SmartClipboard"); }, false);
@@ -45,7 +49,16 @@ window.addEventListener('DOMContentLoaded', function(){
 		document.getElementById("info_tab").addEventListener("click", function(){ showpage("SmartClipboard_info"); }, false);
 		document.getElementById("close_tab").addEventListener("click", hide_clipboard, false);
 	}
+
 }, false);
+
+/*function get_externaldata(){
+	document.designMode = "on";
+	document.getElementById("SmartClipboard_externaldata").focus();
+	document.execCommand("paste", false, null);
+	document.designMode = "off";
+	opera.postError(document.getElementById("SmartClipboard_externaldata").value);
+}*/
 
 function showpage(which){
 	for(i=0;i<doc.getElementsByClassName('clipboard_page').length;i++){
@@ -93,6 +106,7 @@ window.addEventListener("keydown", function(event){ // handle key-combos:
 	if(event[key_for_copy_paste] && ctrl_pressed==0){											// Ctrl / Cmd
 		ctrl_pressed = 1;
 		store_focused_element();
+		/*get_externaldata();*/
 		window.addEventListener("keyup", quickmenu, false);
 	}
 	
@@ -236,12 +250,12 @@ function update_gui(which_part,content_from_bg){
 		
 		if(which_part=="clipboard")	document.getElementById("c_SC_0").click();
 	}
-	else window.setTimeout(function(){update_gui(which_part,content_from_bg);},200);
+	else window.setTimeout(function(){ update_gui(which_part,content_from_bg); }, 500);
 }
 
 function add_css_to_page(css){
 	if(window.top != window.self) return;
-	
+
 	if(document.readyState == "complete"){
 		var style = document.createElement("style");
 		style.setAttribute("type", "text/css");            

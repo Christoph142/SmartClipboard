@@ -37,3 +37,5 @@ div.clipboard_entry span{ font:12px tahoma, arial normal; text-decoration:none; 
 #trash_tab{				left:165px; width:auto; }
 #info_tab{				right:40px; width:auto; }
 #close_tab{				right:10px; width:auto; background-color:#F63; }
+
+#SmartClipboard_externaldata{ position:fixed; top:0px; height:100px; right:0px; width:200px; background-color:#F00; }
