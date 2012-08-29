@@ -223,10 +223,9 @@ function update_gui(which_part,content_from_bg){
 			document.getElementById("SmartClipboard_trash").innerHTML = content_from_bg.length == 0 ?
 				"<div style='text-align:center; line-height:380px;'>No elements in trash</div>":"";
 		else{
+			content_from_bg = widget.preferences.customtext ? JSON.parse(widget.preferences.customtext) : [];
 			document.getElementById("SmartClipboard_pretext").innerHTML = content_from_bg.length == 0 ?
 				"<div style='text-align:center; line-height:380px;'>No custom texts. Add some in extension's preferences</div>":"";
-			if(widget.preferences.customtext) content_from_bg = JSON.parse(widget.preferences.customtext);
-			else content_from_bg = [];
 		}
 		
 		for(i=0; i<content_from_bg.length; i++){
