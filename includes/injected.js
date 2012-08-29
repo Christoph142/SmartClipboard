@@ -92,17 +92,17 @@ function on_copy(){
 	//alert(event.clipboardData.getData("Text"));
 }
 
-window.addEventListener("keydown", function(event){ // handle key-combos:	
-	var k1 = widget.preferences.additional_key1?widget.preferences.additional_key1:"shiftKey";
-	var k2 = widget.preferences.additional_key2?widget.preferences.additional_key2:"altKey";
-	var menu_keycode = widget.preferences.menu_keycode?widget.preferences.menu_keycode:65;
+window.addEventListener("keydown", function(event){ // handle key-combos:
+	var key_for_copy_paste = window.navigator.appVersion.indexOf("Mac")!=-1 ? "cmdKey" : "ctrlKey";
+
+	var k1 = widget.preferences.additional_key1 ? widget.preferences.additional_key1 : key_for_copy_paste;
+	var k2 = widget.preferences.additional_key2 ? widget.preferences.additional_key2 : "altKey";
+	var menu_keycode = widget.preferences.menu_keycode ? widget.preferences.menu_keycode : 65;
 	if((k1==""?1:event[k1]) && (k2==""?1:event[k2]) && event.keyCode == menu_keycode){			// Key combination out of options page 
 		store_focused_element();
 		show_clipboard("full");
 	}
 	
-	if(window.navigator.appVersion.indexOf("Mac")!=-1) var key_for_copy_paste = "cmdKey";		// "Mac"
-	else var key_for_copy_paste = "ctrlKey";													// "Win", "X11", "Linux"
 	if(event[key_for_copy_paste] && ctrl_pressed==0){											// Ctrl / Cmd
 		ctrl_pressed = 1;
 		store_focused_element();
@@ -213,14 +213,20 @@ function update_gui(which_part,content_from_bg){
 	
 	if(ready==1){
 		if(window.navigator.userAgent.substr(window.navigator.userAgent.length-5,4)>=12.5)
-			var entry_active = "linear-gradient(to left, rgba(0,0,0,0) 1%, rgba(180,255,100,0.9) 20%, rgba(180,255,100,0.9) 80%, rgba(0,0,0,0) 99%)";
+			var entry_active = "linear-gradient(270deg, rgba(0,0,0,0) 1%, rgba(180,255,100,0.9) 20%, rgba(180,255,100,0.9) 80%, rgba(0,0,0,0) 99%)";
 		else var entry_active = "-o-linear-gradient(left, rgba(0,0,0,0) 1%, rgba(180,255,100,0.9) 20%, rgba(180,255,100,0.9) 80%, rgba(0,0,0,0) 99%)";
 		
-		if(which_part=="clipboard") document.getElementById("SmartClipboard").innerHTML = "";
-		else if(which_part=="trash")document.getElementById("SmartClipboard_trash").innerHTML = "";
-		else{						document.getElementById("SmartClipboard_pretext").innerHTML = "";
-									if(widget.preferences.customtext) content_from_bg = JSON.parse(widget.preferences.customtext);
-									else content_from_bg = [];
+		if(which_part=="clipboard")
+			document.getElementById("SmartClipboard").innerHTML = content_from_bg.length == 0 ?
+				"<div style='text-align:center; line-height:380px;'>No elements in clipboard</div>":"";
+		else if(which_part=="trash")
+			document.getElementById("SmartClipboard_trash").innerHTML = content_from_bg.length == 0 ?
+				"<div style='text-align:center; line-height:380px;'>No elements in trash</div>":"";
+		else{
+			document.getElementById("SmartClipboard_pretext").innerHTML = content_from_bg.length == 0 ?
+				"<div style='text-align:center; line-height:380px;'>No custom texts. Add some in extension's preferences</div>":"";
+			if(widget.preferences.customtext) content_from_bg = JSON.parse(widget.preferences.customtext);
+			else content_from_bg = [];
 		}
 		
 		for(i=0; i<content_from_bg.length; i++){
