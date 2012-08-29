@@ -212,9 +212,10 @@ function update_gui(which_part,content_from_bg){
 	if(window.top != window.self) return;
 	
 	if(ready==1){
-		//if(window.navigator.userAgent.substr(window.navigator.userAgent.length-5,4)>=12.5)
-			var entry_active="-o-linear-gradient(left, rgba(0,0,0,0) 1%, rgba(180,255,100,0.9) 20%, rgba(180,255,100,0.9) 80%, rgba(0,0,0,0) 99%)";
-		//else var entry_active="-o-linear-gradient(left, rgba(0,0,0,0) 1%, rgba(180,255,100,0.9) 20%, rgba(180,255,100,0.9) 80%, rgba(0,0,0,0) 99%)";
+		if(window.navigator.userAgent.substr(window.navigator.userAgent.length-5,4)>=12.5)
+			var entry_active = "linear-gradient(to left, rgba(0,0,0,0) 1%, rgba(180,255,100,0.9) 20%, rgba(180,255,100,0.9) 80%, rgba(0,0,0,0) 99%)";
+		else var entry_active = "-o-linear-gradient(left, rgba(0,0,0,0) 1%, rgba(180,255,100,0.9) 20%, rgba(180,255,100,0.9) 80%, rgba(0,0,0,0) 99%)";
+		
 		if(which_part=="clipboard") document.getElementById("SmartClipboard").innerHTML = "";
 		else if(which_part=="trash")document.getElementById("SmartClipboard_trash").innerHTML = "";
 		else{						document.getElementById("SmartClipboard_pretext").innerHTML = "";
