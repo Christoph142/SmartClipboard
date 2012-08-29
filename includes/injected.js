@@ -185,7 +185,9 @@ function quickmenu(){
 function show_clipboard(how){
 	if(ready==1){
 		if(how=="slim"){
-			if(text_saver!="##_SC_NoInputElement_##") document.getElementById(element_saver).value = text_saver; // undo paste (1. press of "v")
+			try{
+				if(text_saver!="##_SC_NoInputElement_##") document.getElementById(element_saver).value = text_saver; // undo paste (1. press of "v")
+			} catch(e){ opera.postError("element_saver no object"); }
 			for(i=0;i<doc.getElementsByClassName("clipboard_tab").length;i++){
 				doc.getElementsByClassName("clipboard_tab")[i].style.display = "none";
 			}
@@ -200,7 +202,7 @@ function hide_clipboard(){
 	v_pressed = 0;
 
 	// restore focus:
-	doc.getElementById(element_saver).focus();
+	try{ doc.getElementById(element_saver).focus(); }catch(e){}
 	if(selectionstart_saver!="-1"){
 		doc.getElementById(element_saver).selectionStart = selectionstart_saver-0;
 		doc.getElementById(element_saver).selectionEnd = selectionend_saver-0;
