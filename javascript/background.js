@@ -50,7 +50,7 @@ window.addEventListener("load", function(){
 		}
 		
 		if(clipboardcontent.length>(widget.preferences.max_entries?widget.preferences.max_entries:5)){
-			if(widget.preferences.trash_is_active=="1") trash.unshift(clipboardcontent.pop());
+			if(widget.preferences.trash_is_active!="0") trash.unshift(clipboardcontent.pop());
 			else clipboardcontent.pop();
 		}	
 		send_to_gui("update",clipboardcontent);
