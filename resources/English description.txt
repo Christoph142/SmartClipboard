@@ -11,8 +11,8 @@ Changelog:
 v 1.1
 ---------
 Ctrl + Cmd keys can be used for full mode key combination
-Cursor is restored to where it used to be before opening the clipboard menu upon closing
-no more empty clipboard entries
+default full mode key combination changed into Ctrl(Cmd on Mac) + Alt + A
+cursor is restored to where it used to be before opening the clipboard menu upon closing
 clipboard is accessible when an iframe is focused
 various bugfixes and optimizations
 
