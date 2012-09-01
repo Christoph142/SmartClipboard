@@ -10,6 +10,10 @@ Smart Clipboard fügt der Zwischenablage einen Verlauf hinzu. Braucht ihr einen ä
 Changelog:
 ----------
 
+v 1.2
+---------
+Bilder sind in der Erweiterung enthalten statt auf externem Server
+
 v 1.1
 ---------
 Strg + Cmd können für den Menü-Aufruf verwendet werden
