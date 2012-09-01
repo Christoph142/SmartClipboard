@@ -256,7 +256,7 @@ function update_gui(which_part,content_from_bg){
 			entry_textarea.rows = 2;
 		}
 		
-		if(which_part=="clipboard")	document.getElementById("c_SC_0").click();
+		if(content_from_bg!="" && which_part=="clipboard") document.getElementById("c_SC_0").click();
 	}
 	else window.setTimeout(function(){ update_gui(which_part,content_from_bg); }, 500);
 }
