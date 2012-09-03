@@ -23,4 +23,4 @@ input[value=Title]{ width:50%; }
 .chosen		{ width:100px; height:100px; cursor:pointer; margin:5px; box-shadow:0 0 10px rgba(0,200,200,0.5); }
 #frame		{ position:relative; height:220px; left:50%; width:250px; margin:5px 0 10px -125px; z-index:9998;
 			  background-color:rgba(0,0,0,0.5); box-shadow:0 0 10px #000; border-radius:5px; }
-#bgpic		{ position:absolute; top:50%; height:200px; margin-top:-95px; left:50%; width:240px; margin-left:-120px; z-index:9999; background-color:#FFF; box-shadow:0 0 10px #000; overflow-y:auto; overflow-x:hidden; }
+#content	{ position:absolute; top:50%; height:200px; margin-top:-95px; left:50%; width:240px; margin-left:-120px; z-index:9999; background-color:#FFF; box-shadow:0 0 10px #000; overflow-y:auto; overflow-x:hidden; }

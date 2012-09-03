@@ -18,18 +18,20 @@ window.addEventListener("change",function(event){
 		opera.extension.postMessage(message);
 	}
 	
-	if(event.target.type=="checkbox") 	widget.preferences[event.target.id] = event.target.checked?1:0;
-	else 								widget.preferences[event.target.id] = event.target.value;
-},false);
-
-function change(target_element, property, target_value, demanding_element){
-	if(property=="backgroundImage"){
-		document.getElementsByClassName("chosen")[target_element=="frame"?0:1].className = "choose";
-		demanding_element.className = "chosen";
-		document.getElementById(target_element+"pic").value = target_value;
+	else if(event.target.type=="checkbox") 	widget.preferences[event.target.id] = event.target.checked?1:0;
+	else 									widget.preferences[event.target.id] = event.target.value;
+	
+	// save colors as rgba in widget.preferences[XXX.backgroundColor] (hex is saved automatically in w.p.XXX.backgroundColor_hex):
+	if(event.target.type=="color"){
+		widget.preferences[event.target.id.substring(0,event.target.id.length-4)] = "rgba("+parseInt(event.target.value.substring(1,3),16)+","+parseInt(event.target.value.substring(3,5),16)+","+parseInt(event.target.value.substring(5,7),16)+",0.5)";
+		
+		document.getElementById(event.target.id.split(".")[0]).style.backgroundColor = widget.preferences[event.target.id.substring(0,event.target.id.length-4)];
+		
+		var message = {};
+		message.todo = "layoutchange";
+		opera.extension.postMessage(message);
 	}
-	document.getElementById(target_element).style[property] = target_value;
-}
+},false);
 
 // restore preferences:
 function getprefs(){
@@ -52,6 +54,8 @@ function getprefs(){
 			document.getElementsByTagName("textarea")[i].value = widget.preferences[textareas[i].id];
 	}
 	
+	if(widget.preferences["frame.backgroundColor"])
+		document.getElementById("frame").style.backgroundColor = widget.preferences["frame.backgroundColor"];
 	/*document.getElementsByName("choose_framepic")[widget.preferences.framepic_nr=="undefined"?0:widget.preferences.framepic_nr].className = "chosen";
 	document.getElementsByName("choose_contentpic")[widget.preferences.contentpic_nr=="undefined"?0:widget.preferences.contentpic_nr].className = "chosen";*/
 	

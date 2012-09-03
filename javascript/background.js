@@ -48,6 +48,10 @@ window.addEventListener("load", function(){
 			send_to_gui("customtext","");
 			return;
 		}
+		else if(message.todo == "layoutchange"){
+			opera.extension.broadcastMessage(message); // forward layoutchange request to all tabs
+			return; // prevent send_to_gui(); and following to be executed
+		}
 		
 		if(clipboardcontent.length>(widget.preferences.max_entries?widget.preferences.max_entries:5)){
 			if(widget.preferences.trash_is_active!="0") trash.unshift(clipboardcontent.pop());
