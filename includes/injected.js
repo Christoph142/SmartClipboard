@@ -286,6 +286,8 @@ function add_css_to_page(css){
 }
 
 function set_custom_style(clipboard){
+	if(window.top != window.self) return;
+	
 	if(clipboard=="") clipboard = document.getElementById("SmartClipboard_frame");
 	
 	if(widget.preferences["frame.backgroundColor"]) clipboard.style.backgroundColor = widget.preferences["frame.backgroundColor"];
