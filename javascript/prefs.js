@@ -128,9 +128,5 @@ function menu_key(){
 	else document.getElementById("menu_key").value = ""; //clear input before char is inserted
 	
 	// save the keycode: ( <-> content of menu_key-input-field is automatically stored by eventlistener )
-	widget.preferences.menu_keycode = event.keyCode;
-	// and make the background.js request all tabs to reload so the new keycombo takes effect:
-	var message = {};
-	message.todo = "reload";
-	opera.extension.postMessage(message);
+	widget.preferences.menu_keycode = event.keyCode;	
 }

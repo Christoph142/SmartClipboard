@@ -40,10 +40,6 @@ window.addEventListener("load", function(){
 			else if(message.element[0]=="t") clipboardcontent.unshift(trash.splice(message.element.split("_")[2]-0,1)[0]);
 			else clipboardcontent.unshift(JSON.parse(widget.preferences.customtext)[message.element.split("_")[2]-0]);
 		}
-		else if(message.todo == "reload"){
-			opera.extension.broadcastMessage(message); // forward reload request to all tabs
-			return; // prevent send_to_gui(); and following to be executed
-		}
 		else if(message.todo == "customtext"){
 			send_to_gui("customtext","");
 			return;

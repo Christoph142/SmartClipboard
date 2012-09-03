@@ -138,7 +138,6 @@ opera.extension.onmessage = function(event){ // Communication with background-sc
 	else if (msg_from_bg.todo == "trash") 		update_gui("trash",msg_from_bg.content);
 	else if (msg_from_bg.todo == "customtext")	update_gui("customtext",msg_from_bg.content);
 	else if (msg_from_bg.todo == "layoutchange")set_custom_style("");
-	else if (msg_from_bg.todo == "reload") 		window.location.reload();
 	else if (msg_from_bg.todo == "css")			add_css_to_page(msg_from_bg.content);
 };
 
