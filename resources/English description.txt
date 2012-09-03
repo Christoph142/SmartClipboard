@@ -10,7 +10,9 @@ Changelog:
 
 v 1.2
 ---------
+layout customizable in options
 images stored in extension instead of external server
+various smaller bugfixes
 
 v 1.1
 ---------

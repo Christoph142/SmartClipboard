@@ -12,7 +12,9 @@ Changelog:
 
 v 1.2
 ---------
+Oberfläche kann nun in den Optionen angepasst werden
 Bilder sind in der Erweiterung enthalten statt auf externem Server
+diverse kleinere Fehlerbehebungen
 
 v 1.1
 ---------
