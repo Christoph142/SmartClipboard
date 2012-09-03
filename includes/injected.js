@@ -201,7 +201,8 @@ function show_clipboard(how){
 function hide_clipboard(){
 	doc.getElementById("SmartClipboard_frame").style.display = "none";
 	doc.getElementById("SmartClipboard").style.display = "inline";
-	doc.getElementById("c_SC_"+(v_pressed==0?0:v_pressed-1)).parentNode.parentNode.style.backgroundImage = "";
+	try{ doc.getElementById("c_SC_"+(v_pressed==0?0:v_pressed-1)).parentNode.parentNode.style.backgroundImage = ""; }
+	catch(e){ /* no clipboard entries */ }
 	v_pressed = 0;
 
 	// restore focus:
