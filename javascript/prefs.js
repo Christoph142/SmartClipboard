@@ -18,8 +18,8 @@ window.addEventListener("change",function(event){
 		opera.extension.postMessage(message);
 	}
 	
-	else if(event.target.type=="checkbox") 	widget.preferences[event.target.id] = event.target.checked?1:0;
-	else 									widget.preferences[event.target.id] = event.target.value;
+	if(event.target.type=="checkbox") 	widget.preferences[event.target.id] = event.target.checked?1:0;
+	else 								widget.preferences[event.target.id] = event.target.value;
 	
 	// save colors as rgba in widget.preferences[XXX.backgroundColor] (hex is saved automatically in w.p.XXX.backgroundColor_hex):
 	if(event.target.type=="color"){
