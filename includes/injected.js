@@ -101,19 +101,19 @@ window.addEventListener("keydown", function(event){ // handle key-combos:
 	var k1 = widget.preferences.additional_key1 ? widget.preferences.additional_key1 : key_for_copy_paste;
 	var k2 = widget.preferences.additional_key2 ? widget.preferences.additional_key2 : "altKey";
 	var menu_keycode = widget.preferences.menu_keycode ? widget.preferences.menu_keycode : 65;
-	if((k1==""?1:event[k1]) && (k2==""?1:event[k2]) && event.keyCode == menu_keycode){			// Key combination out of options page 
+	if((k1==""?1:event[k1]) && (k2==""?1:event[k2]) && event.keyCode == menu_keycode){	// Key combination out of options page 
 		store_focused_element();
 		show_clipboard("full");
 	}
 	
-	if(event[key_for_copy_paste] && ctrl_pressed==0){											// Ctrl / Cmd
+	if(event[key_for_copy_paste] && ctrl_pressed==0){									// Ctrl / Cmd
 		ctrl_pressed = 1;
 		store_focused_element();
 		/*get_externaldata();*/
 		window.addEventListener("keyup", quickmenu, false);
 	}
 	
-	if(event.keyCode == 27) hide_clipboard();													// Esc
+	if(event.keyCode == 27) hide_clipboard();											// Esc
 }, false);
 
 function store_focused_element(){
