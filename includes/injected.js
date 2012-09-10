@@ -195,6 +195,7 @@ function show_clipboard(how){
 				doc.getElementsByClassName("clipboard_tab")[i].style.display = "none";
 			}
 		}
+		else try{ document.getElementById("c_SC_0").click(); }catch(e){/* no entry */}
 		doc.getElementById("SmartClipboard_frame").style.display = "inline";
 	}
 }
@@ -259,8 +260,6 @@ function update_gui(which_part,content_from_bg){
 			entry_textarea.style = "width:100%; height:auto; color:#000; background-color:rgba(0,0,0,0); cursor:pointer; border:0px; overflow:hidden;";
 			entry_textarea.rows = 2;
 		}
-		
-		if(content_from_bg!="" && which_part=="clipboard") document.getElementById("c_SC_0").click();
 	}
 	else window.setTimeout(function(){ update_gui(which_part,content_from_bg); }, 500);
 }
