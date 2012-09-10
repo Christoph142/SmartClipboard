@@ -51,6 +51,10 @@ window.addEventListener('DOMContentLoaded', function(){
 		document.getElementById("trash_tab").addEventListener("click", function(){ showpage("SmartClipboard_trash"); }, false);
 		document.getElementById("info_tab").addEventListener("click", function(){ showpage("SmartClipboard_info"); }, false);
 		document.getElementById("close_tab").addEventListener("click", hide_clipboard, false);
+		
+		document.getElementById("SmartClipboard_frame").addEventListener("click",function(){
+			window.event.stopPropagation(); // prevent clicks in the menu from having side-effects on websites
+		},false);
 	}
 
 }, false);
@@ -199,6 +203,7 @@ function show_clipboard(how){
 		doc.getElementById("SmartClipboard_frame").style.display = "inline";
 	}
 }
+
 function hide_clipboard(){
 	doc.getElementById("SmartClipboard_frame").style.display = "none";
 	doc.getElementById("SmartClipboard").style.display = "inline";
