@@ -10,17 +10,18 @@ Changelog:
 
 v 1.2
 ---------
-layout customizable in options
-images stored in extension instead of external server
-various smaller bugfixes
+new: clipboard color customizable in options
+new: images stored in extension instead of external server
+fix: clicks in the clipboard menu may have side-effects to the website (e.g. Facebook's image popups closing)
+fix: various smaller bugfixes
 
 v 1.1
 ---------
-Ctrl + Cmd keys can be used for full mode key combination
-default full mode key combination changed into Ctrl(Cmd on Mac) + Alt + A
-cursor is restored to where it used to be before opening the clipboard menu upon closing
-clipboard is accessible when an iframe is focused
-various bugfixes and optimizations
+new: Ctrl + Cmd keys can be used for full mode key combination
+new: default full mode key combination changed into Ctrl(Cmd on Mac) + Alt + A
+new: cursor is restored to where it used to be before opening the clipboard menu upon closing
+new: clipboard is accessible when an iframe is focused
+fix: various bugfixes and optimizations
 
 v 1.0
 ---------

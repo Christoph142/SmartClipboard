@@ -12,17 +12,18 @@ Changelog:
 
 v 1.2
 ---------
-Oberfläche kann nun in den Optionen angepasst werden
-Bilder sind in der Erweiterung enthalten statt auf externem Server
-diverse kleinere Fehlerbehebungen
+neu: Farbe der Oberfläche kann nun in den Optionen angepasst werden
+neu: Bilder sind in der Erweiterung enthalten statt auf externem Server
+fix: Klicks im Clipboard-Menü können Neben-Effekte auf der Webseite haben (z.B. Facebooks Bilder-Popups schließen)
+fix: diverse kleinere Fehlerbehebungen
 
 v 1.1
 ---------
-Strg + Cmd können für den Menü-Aufruf verwendet werden
-Standard für den Menü-Aufruf geändert in: Strg(Cmd für Mac) + Alt + A
-Cursor wird nach dem Schließen des Menüs wieder an die Stelle zurück gesetzt, an der er vor dem Aufruf war
-Zwischenablage kann aufgerufen werden, wenn ein IFrame Fokus hat
-mehrere Fehlerkorrekturen und Optimierungen
+neu: Strg + Cmd können für den Menü-Aufruf verwendet werden
+neu: Standard für den Menü-Aufruf geändert in: Strg(Cmd für Mac) + Alt + A
+neu: Cursor wird nach dem Schließen des Menüs wieder an die Stelle zurück gesetzt, an der er vor dem Aufruf war
+neu: Zwischenablage kann aufgerufen werden, wenn ein IFrame Fokus hat
+fix: mehrere Fehlerkorrekturen und Optimierungen
 
 V 1.0
 ---------
