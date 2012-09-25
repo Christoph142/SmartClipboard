@@ -1,7 +1,8 @@
 html		{ background:#f1f6f0; }
 a			{ text-decoration:none; color:#001; border-radius:5px; padding:5px; background-color:#7AF; }
 body		{ font:13px/24px "helvetica neue",arial,sans-serif; cursor:default; max-width:900px; overflow-x:hidden;
-  			  color:#1e3853; background:rgba(255,255,255,0.9); margin:15px auto; box-shadow:0 0 10px #98b0c9; }
+  			  color:#1e3853; background:rgba(255,255,255,0.9); margin:15px auto; box-shadow:0 0 10px #98b0c9;
+			  opacity:0; transition-duration:1s; }
 .invis		{ opacity:0; height:0px; overflow:hidden; -o-transition-duration:500ms; }
 .vis		{ opacity:1; height:250px; overflow:hidden; -o-transition-duration:500ms; }
 .active		{ color:#3C0; }
