@@ -5,23 +5,24 @@
 	<title>Smart Clipboard</title>
     <link rel="stylesheet" type="text/css" href="options.css">
     <script type="text/javascript" src="javascript/prefs.js"></script>
-    <!--script type="text/javascript" src="language.js"></script-->
+    <script type="text/javascript" src="options_strings.js"></script>
+    <script type="text/javascript" src="locales/translate.js"></script>
 </head>
 
-<body onLoad="getprefs();">
+<body onLoad="getprefs(); translate(); document.body.style.opacity='1';">
 
 <header>
 	<img src="images/icon128.png">
     <h1 id="widget-name">Smart Clipboard</h1>
-    <h3>by <a href="http://my.opera.com/christoph142/blog/" target="_blank" style="background-color:transparent;">Christoph142</a></h3>
+    <h3>##by## <a href="http://my.opera.com/christoph142/blog/" target="_blank" style="background-color:transparent;">Christoph142</a></h3>
 </header>
 
 <section>
-    <h3>Options</h3>
+    <h3>##Options##</h3>
     <fieldset>
-    <p>Adjust the look of Smart Clipboard the way you like it:<br></p>
+    <p>##Adjust the look##:<br></p>
     
-    Color of the frame: <input type="color" id="frame.backgroundColor_hex"><br>
+    ##Color of the frame##: <input type="color" id="frame.backgroundColor_hex"><br>
     <!--img name="choose_framepic" src="images/no_image.gif" class="choose" onClick="change('frame','backgroundImage','',this); document.getElementById('framepic_nr').value='0';">
     <img name="choose_framepic" src="images/custom.jpg" class="choose" onClick="change('frame','backgroundImage','url(http://www.codog.de/SmartClipboard/test.jpg)',this); document.getElementById('framepic_nr').value='1';">
     <img name="choose_framepic" src="images/frame1.png" class="choose" onClick="change('frame','backgroundImage','url('+this.src.split('/')[1]+')',this); document.getElementById('framepic_nr').value='2';">
@@ -44,13 +45,13 @@
     
     <fieldset>
     <p>
-    <label for="max_entries">Choose a key combination for opening the clipboard menu:</label>
+    <label for="max_entries">##Choose key combination##:</label>
     <span style="white-space:nowrap;">
     <select name="additional_key1" id="additional_key1" class="key" onChange="document.getElementById('key2_container').style.display=this.value==''?'none':'inline';">
       <option value=""></option>
       <option value="altKey">Alt</option>
       <option value="shiftKey">Shift</option>
-      <option value="ctrlKey" selected="selected">Ctrl</option>
+      <option value="ctrlKey" selected="selected">##Ctrl##</option>
       <option value="cmdKey">Cmd ⌘</option>
     </select> +
     <span style="display:none;" id="key2_container">
@@ -58,65 +59,64 @@
           <option value=""></option>
           <option value="altKey" selected="selected">Alt</option>
           <option value="shiftKey">Shift</option>
-          <option value="ctrlKey">Ctrl</option>
+          <option value="ctrlKey">##Ctrl##</option>
           <option value="cmdKey">Cmd ⌘</option>
         </select> +
     </span>
     <input type="text" id="menu_key" name="menu_key" value="A" style="width:80px; text-align:center;" onKeyDown="menu_key();" class="key">
     </span><br>
-    <table><tr><td style="vertical-align:top;">Note:</td><td>the key shown <i>may</i> differ from what you pressed depending on the keyboard layout you're using.<br>Nevertheless it got saved properly.</td></tr></table>
-    You can close the menu by hitting <b class="key">Esc</b>
+    <table><tr><td style="vertical-align:top;">##Note##:</td><td>##key may differ##.</td></tr></table>
+    ##close menu by##
     </p>
     </fieldset><br>
     
     <fieldset>
     <p>
-    <label for="max_entries">maximum number of history entries: </label>
+    <label for="max_entries">##max history entries##: </label>
     <input type="number" max="100" min="1" id="max_entries" name="max_entries" value="5"><br>
     <input type="checkbox" id="trash_is_active" name="trash_is_active" onClick="document.getElementById('trash_checkbox_container').style.height=this.checked?'20px':'0px';" checked="checked">
-    <label for="trash_is_active" onClick="document.getElementById('trash_checkbox_container').style.height=document.getElementById('trash_is_active').checked?'0px':'20px';">keep entries which exceed the maximum number in trash</label><br>
+    <label for="trash_is_active" onClick="document.getElementById('trash_checkbox_container').style.height=document.getElementById('trash_is_active').checked?'0px':'20px';">##keep exceeds in trash##</label><br>
     <input type="checkbox" id="clear_history_on_exit" name="clear_history_on_exit">
-    <label for="clear_history_on_exit">clear clipboard history when Opera is closed</label>
+    <label for="clear_history_on_exit">##clear history when closed##</label>
     <div id="trash_checkbox_container" style="height:0px; -o-transition-duration:100ms; overflow:hidden; position:relative; top:-12px;">
     <input type="checkbox" id="clear_trash_on_exit" name="clear_trash_on_exit" checked="checked">
-    <label for="clear_trash_on_exit">clear trash when Opera is closed</label>
+    <label for="clear_trash_on_exit">##clear trash when closed##</label>
     </div>
     </p>
     </fieldset><br>
     
     <fieldset>
     <p>
-    You can add frequently used texts in here to make them easily accessible for insertion via the "Custom Texts" tab in the clipboard menu:
+    ##custom texts##:
     <br><br>
-    <input type="text" id="custom_text_1_title" value="Title" class="custom_text" onClick="if(this.value=='Title')this.value='';"><br>
+    <input type="text" id="custom_text_1_title" value="##Title##" class="custom_text" onClick="if(this.value=='##Title##')this.value='';"><br>
     <textarea id="custom_text_1" class="custom_text"></textarea><br><br>
-    <input type="text" id="custom_text_2_title" value="Title" class="custom_text" onClick="if(this.value=='Title')this.value='';"><br>
+    <input type="text" id="custom_text_2_title" value="##Title##" class="custom_text" onClick="if(this.value=='##Title##')this.value='';"><br>
     <textarea id="custom_text_2" class="custom_text"></textarea><br><br>
-    <input type="text" id="custom_text_3_title" value="Title" class="custom_text" onClick="if(this.value=='Title')this.value='';"><br>
+    <input type="text" id="custom_text_3_title" value="##Title##" class="custom_text" onClick="if(this.value=='##Title##')this.value='';"><br>
     <textarea id="custom_text_3" class="custom_text"></textarea><br><br>
-    <input type="text" id="custom_text_4_title" value="Title" class="custom_text" onClick="if(this.value=='Title')this.value='';"><br>
+    <input type="text" id="custom_text_4_title" value="##Title##" class="custom_text" onClick="if(this.value=='##Title##')this.value='';"><br>
     <textarea id="custom_text_4" class="custom_text"></textarea><br><br>
-    <input type="text" id="custom_text_5_title" value="Title" class="custom_text" onClick="if(this.value=='Title')this.value='';"><br>
+    <input type="text" id="custom_text_5_title" value="##Title##" class="custom_text" onClick="if(this.value=='##Title##')this.value='';"><br>
     <textarea id="custom_text_5" class="custom_text"></textarea>
     </p>
     </fieldset><br>
     
     <fieldset>
     <p>
-    <h4>(i) How do I use this extension?</h4>
-    There are two ways:<br>
+    <h4>(i) ##How to##?</h4>
+    ##two ways##:<br>
     <table>
     	<tr>
         	<td style="vertical-align:top;"><b>1.</b></td>
-            <td><b>The slim mode</b><br>
-            If you're using keyboard commands for pasting, you will find this very useful:<br>
-            if you press <b class="key">Ctrl</b> (<b class="key">Cmd ⌘</b> on a Mac) and hit <b class="key">V</b>, it'll work just like it used to be, but if you keep <b class="key">Ctrl</b> pressed and hit <b class="key">V</b> multiple times, the Smart Clipboard menu will pop up and toggle through your history. When you reached the entry you need to paste, hit <b class="key">C</b> (still holding <b class="key">Ctrl</b>/<b class="key">Cmd ⌘</b>) and you will see this entry moving to the top. It is now active again and you can insert it wherever you need it</td>
+            <td><b>##slim mode##</b><br>
+            ##slim mode description##</td>
         </tr>
         <tr>
         	<td style="vertical-align:top;"><b>2.</b></td>
-            <td><b>The full mode</b><br>
-            You can access it by pressing <b class="key">Ctrl</b>/<b class="key">Cmd ⌘</b>+<b class="key">Alt</b>+<b class="key">A</b> (as you have probably seen you can adjust this key combination at the top). The menu will then stay open until you hit <b class="key">Esc</b> or click the "X" in the upper right corner of the Smart Clipboard menu. In this mode you can select the entries (history, trash as well as custom text snippets you saved here in the options) you want with the mouse. Then press <b class="key">Ctrl</b>/<b class="key">Cmd ⌘</b>+<b class="key">C</b> to make the chosen entry active.<br>
-    <i>Note: if you're using Opera 12.50+ you can also rightclick and choose "copy"</i></td>
+            <td><b>##full mode##</b><br>
+            ##full mode description##<br>
+    <i>##note rightclick copy##</i></td>
     	</tr>
     </table>
     </p>
@@ -124,7 +124,7 @@
 </section>
 
 <footer>
-    <p>Thanks for installing this extension. For feedback and questions don't hesitate to contact me directly :)<br><br></p>
+    <p>##footer## :)<br><br></p>
 </footer>
   
 </body>
