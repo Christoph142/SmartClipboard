@@ -1,25 +1,4 @@
 var strings = {
 	"by" : "by",
-	"Options" : "Options",
-	"Adjust the look" : "Adjust the look of Smart Clipboard the way you like it",
-	"Color of the frame" : "Color of the frame",
-	"Choose key combination" : "Choose a key combination for opening the clipboard menu",
-	"Ctrl" : "Ctrl",
-	"Note" : "Note",
-	"key may differ" : "the key shown <i>may</i> differ from what you pressed depending on the keyboard layout you're using.<br>Nevertheless it got saved properly",
-	"close menu by" : "You can close the menu by hitting",
-	"max history entries" : "maximum number of history entries",
-	"keep exceeds in trash" : "keep entries which exceed the maximum number in trash",
-	"clear history when closed" : "clear clipboard history when Opera is closed",
-	"clear trash when closed" : "clear trash when Opera is closed",
-	"custom texts" : "You can add frequently used texts in here to make them easily accessible for insertion via the \"Custom Texts\" tab in the clipboard menu",
-	"Title" : "Title",
-	"How to" : "How do I use this extension",
-	"two ways" : "There are two ways",
-	"slim mode" : "The slim mode",
-	"slim mode description" : "If you're using keyboard commands for pasting, you will find this very useful:<br>if you press <b class=\"key\">Ctrl</b> (<b class=\"key\">Cmd ⌘</b> on a Mac) and hit <b class=\"key\">V</b>, it'll work just like it used to be, but if you keep <b class=\"key\">Ctrl</b> pressed and hit <b class=\"key\">V</b> multiple times, the Smart Clipboard menu will pop up and toggle through your history. When you reached the entry you need to paste, hit <b class=\"key\">C</b> (still holding <b class=\"key\">Ctrl</b>/<b class=\"key\">Cmd ⌘</b>) and you will see this entry moving to the top. It is now active again and you can insert it wherever you need it",
-	"full mode" : "The full mode",
-	"full mode description" : "You can access it by pressing <b class=\"key\">Ctrl</b>/<b class=\"key\">Cmd ⌘</b>+<b class=\"key\">Alt</b>+<b class=\"key\">A</b> (as you have probably seen you can adjust this key combination at the top). The menu will then stay open until you hit <b class=\"key\">Esc</b> or click the \"X\" in the upper right corner of the Smart Clipboard menu. In this mode you can select the entries (history, trash as well as custom text snippets you saved here in the options) you want with the mouse. Then press <b class=\"key\">Ctrl</b>/<b class=\"key\">Cmd ⌘</b>+<b class=\"key\">C</b> to make the chosen entry active.",
-	"note rightclick copy" : "Note: if you're using Opera 12.10+ you can also rightclick and choose \"copy\"",
-	"footer" : "Thanks for installing this extension. For feedback and questions don't hesitate to contact me directly"
+	"Options" : "Options"
 };
