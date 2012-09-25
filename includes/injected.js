@@ -20,7 +20,7 @@ var selectionend_saver;			// and end-position within it to revert its state, if 
 var doc = document;				// document (main window), window.top.document (iframe)
 
 window.addEventListener('DOMContentLoaded', function(){
-	
+
 	// prevent multiple clipboard-UIs in iframes, advertisements, etc. and redirect UI-commands to parent frame:
 	if (window.top != window.self){
 		try{ doc = window.top.document; }catch(e){ return; /* might be inaccessible due to security restrictions */ }
@@ -29,8 +29,12 @@ window.addEventListener('DOMContentLoaded', function(){
 		return;
 	}
 	
-	/*var external_data = document.createElement("textarea");
-	external_data.id = "SmartClipboard_externaldata";*/
+	/*var external_data = document.createElement("iframe");
+	external_data.id = "SmartClipboard_externaldata_iframe";
+	external_data.innerHTML = "<textarea id='SmartClipboard_externaldata'></textarea>";
+	external_data.contentDocument = {};
+	//external_data.contentDocument.designMode = "on";
+	alert(external_data.contentDocument);*/
 	
 	// add UI:
 	var clipboard = document.createElement("div");
@@ -296,3 +300,5 @@ function set_custom_style(clipboard){
 	
 	if(widget.preferences["frame.backgroundColor"]) clipboard.style.backgroundColor = widget.preferences["frame.backgroundColor"];
 }
+
+//function _(eng){ return strings[eng] ? strings[eng] : eng; }
