@@ -56,7 +56,11 @@ window.addEventListener('DOMContentLoaded', function(){
 		document.getElementById("info_tab").addEventListener("click", function(){ showpage("SmartClipboard_info"); }, false);
 		document.getElementById("close_tab").addEventListener("click", hide_clipboard, false);
 		
+		document.getElementById("SmartClipboard_frame").addEventListener("mousedown",function(){
+			window.event.preventDefault(); // prevent clicks in the menu from having side-effects on websites
+		},false);
 		document.getElementById("SmartClipboard_frame").addEventListener("click",function(){
+			window.event.preventDefault();
 			window.event.stopPropagation(); // prevent clicks in the menu from having side-effects on websites
 		},false);
 	}
