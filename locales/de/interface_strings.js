@@ -1,4 +1,4 @@
 var strings = {
-	"by" : "by",
-	"Options" : "Options"
+	"test1" : "test",
+	"test2" : "test"
 };
