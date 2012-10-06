@@ -61,6 +61,13 @@ function getprefs(){
 	
 	if(document.getElementById("additional_key1").value!="")document.getElementById("key2_container").style.display = "inline";
 	if(document.getElementById("trash_is_active").checked)	document.getElementById("trash_checkbox_container").style.height = "20px";
+	
+	for(var i = 0; i < document.getElementsByClassName("custom_text").length; i = i+2){
+		document.getElementsByClassName("custom_text")[i].value = strings["Title"];
+		document.getElementsByClassName("custom_text")[i].onclick = function(){
+			if(this.value == strings["Title"]) this.value = "";
+		}
+	}
 }
 
 // Key-Codes:
