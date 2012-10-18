@@ -10,6 +10,11 @@ Smart Clipboard fügt der Zwischenablage einen Verlauf hinzu. Braucht ihr einen ä
 Changelog:
 ----------
 
+v 1.3
+---------
+neu: Lokalisierungen (Optionen immer; Oberfläche ab Opera 12.10)
+neu: Deutsche Lokalisierung
+
 v 1.2
 ---------
 neu: Farbe der Oberfläche kann nun in den Optionen angepasst werden

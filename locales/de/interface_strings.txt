@@ -1,0 +1,11 @@
+{
+"history" : "Verlauf",
+"trash" : "Papierkorb",
+"custom" : "Eigene Texte",
+"info" : "Info",
+"by" : "von",
+"infotext" : "Wenn dir diese Erweiterung gefällt, dann<br><a href='https://addons.opera.com/extensions/details/smart-clipboard#feedback-container' target='_blank' class='button'>bewerte sie</a> & <a href='https://addons.opera.com/extensions/details/smart-clipboard/?reports#feedback-container' target='_blank' class='button'>melde Fehler</a><br>Danke",
+"empty clipboard" : "Die Zwischenablage ist leer",
+"empty trash" : "Der Papierkorb ist leer",
+"empty custom" : "Keine eigenen Texte vorhanden.<br>Gehe in die Einstellungen von Smart Clipboard und füge dort welche hinzu."
+}

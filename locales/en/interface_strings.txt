@@ -1,0 +1,11 @@
+{
+"history" : "History",
+"trash" : "Trash",
+"custom" : "Custom Texts",
+"info" : "Info",
+"by" : "by",
+"infotext" : "If you like this extension, then please<br><a href='https://addons.opera.com/extensions/details/smart-clipboard#feedback-container' target='_blank' class='button'>rate it</a> & <a href='https://addons.opera.com/extensions/details/smart-clipboard/?reports#feedback-container' target='_blank' class='button'>report bugs</a><br>Thanks",
+"empty clipboard" : "No elements in clipboard",
+"empty trash" : "No elements in trash",
+"empty custom" : "No custom texts. Add some in extension's preferences"
+}
