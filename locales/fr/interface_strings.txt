@@ -1,0 +1,11 @@
+﻿{
+"history" : "Histoire",
+"trash" : "Poubelle",
+"custom" : "Textes personnalisés",
+"info" : "Info",
+"by" : "de",
+"infotext" : "Si tu aimes cette extension<br><a href='https://addons.opera.com/extensions/details/smart-clipboard#feedback-container' target='_blank' class='button'>vote</a> & <a href='https://addons.opera.com/extensions/details/smart-clipboard/?reports#feedback-container' target='_blank' class='button'>rapporte bogues</a><br>Merci",
+"empty clipboard" : "Il n'y a rien dans le presse-papier",
+"empty trash" : "Il n'y a rien dans la poubelle",
+"empty custom" : "Pas de textes personnalisés. Ajoutes-les aux préférences de l'extension"
+}

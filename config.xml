@@ -5,7 +5,8 @@
 	<author href="http://my.opera.com/christoph142/blog">Christoph D.</author>
 	<icon src="images/icon128.png"/>
 	
-	<description xml:lang="en">Makes your clipboard smarter</description>
 	<description xml:lang="de">Macht deine Zwischenablage smarter</description>
+	<description xml:lang="en">Makes your clipboard smarter</description>
+	<description xml:lang="fr">Rend ton presse-papier plus intelligent</description>
   
 </widget>
