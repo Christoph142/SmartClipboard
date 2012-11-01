@@ -32,6 +32,8 @@ var strings = {					// localized strings
 
 window.addEventListener('DOMContentLoaded', function(){
 
+	if(window.matchMedia("all and (view-mode: minimized)").matches) return; // don't inject into speed dials
+
 	// prevent multiple clipboard-UIs in iframes, advertisements, etc. and redirect UI-commands to parent frame:
 	if (window.top != window.self){
 		try{ doc = window.top.document; }catch(e){ return; /* might be inaccessible due to security restrictions */ }
@@ -197,7 +199,7 @@ function quickmenu(){
 		}
 	}
 	
-	if((typeof document.body.oncopy) == "undefined"){							// Opera < 12.50 without copy-eventlistener:
+	if((typeof document.body.oncopy) == "undefined"){							// Opera < 12.10 without copy-eventlistener:
 		if(window.event.keyCode == 67 || window.event.keyCode == 88) on_copy();	// ctrl + c / x
 	}
 	
