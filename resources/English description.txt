@@ -12,6 +12,7 @@ v 1.3
 ---------
 new: localizations (options (in all versions of Opera) & interface (in Opera 12.10 and above))
 new: German localization
+new: French localization (incomplete)
 
 v 1.2
 ---------
