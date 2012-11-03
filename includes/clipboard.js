@@ -17,9 +17,8 @@ var strings = {					// localized strings
 "history" : "History", "trash" : "Trash", "custom" : "Custom Texts", "info" : "Info", "by" : "by", "infotext" : "If you like this extension, then please<br><a href='https://addons.opera.com/extensions/details/smart-clipboard#feedback-container' target='_blank' class='button'>rate it</a> & <a href='https://addons.opera.com/extensions/details/smart-clipboard/?reports#feedback-container' target='_blank' class='button'>report bugs</a><br>Thanks", "empty clipboard" : "No elements in clipboard", "empty trash" : "No elements in trash", "empty custom" : "No custom texts. Add some in extension's preferences" };				
 
 window.opera.addEventListener("AfterEvent.DOMContentLoaded", function(){
-
-	if(window.matchMedia("all and (view-mode: minimized)").matches) return; // don't inject into speed dials
-
+	try{ if(window.matchMedia("all and (view-mode: minimized)").matches) return; }catch(e){/* !window.matchMedia */} // speed dials
+	
 	// prevent multiple clipboard-UIs in iframes, advertisements, etc. and redirect UI-commands to parent frame:
 	if (window.top != window.self){
 		try{ doc = window.top.document; }catch(e){ return; /* might be inaccessible due to security restrictions */ }
@@ -50,10 +49,13 @@ window.opera.addEventListener("AfterEvent.DOMContentLoaded", function(){
 	
 	// load localized strings if possible (Opera 12.10+):
 	if(opera.extension.getFile){
-		strings = opera.extension.getFile("/interface_strings.txt");
+		var s = opera.extension.getFile("/interface_strings.txt");
 		var fr = new FileReader();
-		fr.readAsText(strings,"UTF-8");
-		fr.onload = function(event){ strings = JSON.parse(event.target.result);	finish_initialization(); };
+		fr.readAsText(s,"UTF-8");
+		fr.onload = function(event){
+			try{ strings = JSON.parse(event.target.result); }catch(e){ opera.postError("Smart Clipboard: localization file is corrupt"); }
+			finish_initialization();
+		};
 	}
 	else finish_initialization();
 
