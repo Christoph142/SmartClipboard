@@ -1,0 +1,5 @@
+Czy straciłeś kiedyś zawartość schowka, której nie mogłeś później odzyskać w potrzebie?
+
+Mi zdarzyło się to wiele razy. Ale to już przeszłość.
+
+Smart Clipboard wprowadza historię schowka. Kiedy będziesz potrzebował poprzedniej zawartości, otworzysz menu i przywrócisz ją :)
