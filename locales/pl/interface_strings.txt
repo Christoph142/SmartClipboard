@@ -1,0 +1,11 @@
+{
+"history" : "Historia",
+"trash" : "Śmietnik",
+"custom" : "Zadane wyrażenia",
+"info" : "Informacje",
+"by" : "autorstwa",
+"infotext" : "Jeśli to rozszerzenie spodobało ci się, <br><a href='https://addons.opera.com/extensions/details/smart-clipboard#feedback-container' target='_blank' class='button'>oceń je</a> albo <a href='https://addons.opera.com/extensions/details/smart-clipboard/?reports#feedback-container' target='_blank' class='button'>zgłoś błędy</a><br>Dzięki",
+"empty clipboard" : "Schowek jest pusty",
+"empty trash" : "Śmietnik jest pusty",
+"empty custom" : "Brak zadanych wyrażeń. Aby dodać kilka, przejdź do ustawień."
+}
