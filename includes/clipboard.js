@@ -20,10 +20,12 @@ window.opera.addEventListener("AfterEvent.DOMContentLoaded", function(){
 	try{ if(window.matchMedia("all and (view-mode: minimized)").matches) return; }catch(e){/* !window.matchMedia */} // speed dials
 	
 	// prevent multiple clipboard-UIs in iframes, advertisements, etc. and redirect UI-commands to parent frame:
-	if (window.top != window.self){
-		try{ doc = window.top.document; }catch(e){ return; /* might be inaccessible due to security restrictions */ }
-		window.addEventListener("focus", function(){ v_pressed = 0;	ctrl_pressed = 0; }, false);
-		ready = 1;
+	if(window.self != window.top){ // only treat main & iframes
+		try{ if(window.self.frameElement == "[object HTMLIFrameElement]"){
+			doc = window.top.document;
+			window.addEventListener("focus", function(){ v_pressed = 0;	ctrl_pressed = 0; }, false);
+			ready = 1;
+		} }catch(e){ return; /* window.self.frameElement = protected variable */}
 		return;
 	}
 	
@@ -144,16 +146,12 @@ window.addEventListener("keydown", function(event){ // handle key-combos:
 
 function store_focused_element(){
 	// save element in focus (and its content, if it's an input/textarea) to reverse focus & insertion if v is pressed 2x or more:
-	if(document.activeElement.id == ""){
-		document.activeElement.id = "element_saver";
-		element_saver = "element_saver";
-	}
-	else element_saver = document.activeElement.id;
+	element_saver = document.activeElement;
 	
-	if(document.activeElement.selectionStart!=undefined && document.activeElement.type!="password"){
-		text_saver = document.activeElement.value;
-		selectionstart_saver = document.activeElement.selectionStart;
-		selectionend_saver = document.activeElement.selectionEnd;
+	if(element_saver.selectionStart != undefined && element_saver.type !== "password"){
+		text_saver = element_saver.value;
+		selectionstart_saver = element_saver.selectionStart;
+		selectionend_saver = element_saver.selectionEnd;
 	}
 	else selectionstart_saver = "-1"; // there's no content which has to be copied back later
 }
@@ -189,17 +187,15 @@ function quickmenu(){
 		}
 	}
 	
-	if((typeof document.body.oncopy) == "undefined"){							// Opera < 12.10 without copy-eventlistener:
-		if(window.event.keyCode == 67 || window.event.keyCode == 88) on_copy();	// ctrl + c / x
+	if((typeof document.body.oncopy) == "undefined"){								// Opera < 12.10 without copy-eventlistener:
+		if(window.event.keyCode === 67 || window.event.keyCode === 88) on_copy();	// ctrl + c / x
 	}
 	
-	if(window.navigator.appVersion.indexOf("Mac")!=-1) var key_for_copy_paste = "cmdKey";
-	else var key_for_copy_paste = "ctrlKey";
+	if(window.navigator.appVersion.indexOf("Mac")!=-1)	var key_for_copy_paste = "cmdKey";
+	else												var key_for_copy_paste = "ctrlKey";
+	
 	if(!window.event[key_for_copy_paste]){ // Ctrl/Cmd released
-		if(doc.getElementById("SmartClipboard_frame").style.display=="none"){ // if menu wasn't open:
-			if(element_saver=="element_saver") doc.getElementById(element_saver).removeAttribute("id");
-		}
-		else if(doc.getElementById("clipboard_tab").style.display=="none"){ // if in slim mode
+		if(doc.getElementById("clipboard_tab").style.display == "none"){ // if in slim mode
 			hide_clipboard();
 			for(i=0;i<doc.getElementsByClassName("clipboard_tab").length;i++){
 				doc.getElementsByClassName("clipboard_tab")[i].style.display = "inline";
@@ -212,11 +208,12 @@ function quickmenu(){
 }
 
 function show_clipboard(how){
-	if(ready==1){
-		if(how=="slim"){
+	if(ready == 1){
+		if(how == "slim"){
 			try{
-				if(text_saver!="##_SC_NoInputElement_##") document.getElementById(element_saver).value = text_saver; // undo paste (1. press of "v")
+				if(text_saver!="##_SC_NoInputElement_##") element_saver.value = text_saver; // undo paste (1. press of "v")
 			} catch(e){ opera.postError("element_saver no object"); }
+			
 			for(i=0;i<doc.getElementsByClassName("clipboard_tab").length;i++){
 				doc.getElementsByClassName("clipboard_tab")[i].style.display = "none";
 			}
@@ -234,12 +231,11 @@ function hide_clipboard(){
 	v_pressed = 0;
 
 	// restore focus:
-	try{ doc.getElementById(element_saver).focus(); }catch(e){}
+	try{ element_saver.focus(); }catch(e){ /* element got removed */ }
 	if(selectionstart_saver!="-1"){
-		doc.getElementById(element_saver).selectionStart = selectionstart_saver-0;
-		doc.getElementById(element_saver).selectionEnd = selectionend_saver-0;
+		element_saver.selectionStart = selectionstart_saver-0;
+		element_saver.selectionEnd = selectionend_saver-0;
 	}
-	if(element_saver=="element_saver") doc.getElementById(element_saver).removeAttribute("id");
 }
 
 function update_gui(which_part,content_from_bg){
