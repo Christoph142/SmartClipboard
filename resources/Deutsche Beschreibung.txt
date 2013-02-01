@@ -10,12 +10,18 @@ Smart Clipboard fügt der Zwischenablage einen Verlauf hinzu. Braucht ihr einen ä
 Changelog:
 ----------
 
+v 1.3.1
+---------
+neu: viele Verbesserungen unter der Haube
+neu: Polnische Übersetzung (Danke Piotr)
+fix: es wird kein Text angezeigt, wenn keine unterstützte Sprache ausgewählt ist
+
 v 1.3
 ---------
 neu: UI angepasst
 neu: Lokalisierungen (Optionen (in allen Opera-Versionen) & Oberfläche (ab Opera 12.10))
-neu: Deutsche Lokalisierung
-neu: Französische Lokalisierung (unvollständig)
+neu: Deutsche Übersetzung
+neu: Französische Übersetzung (unvollständig)
 
 v 1.2
 ---------
