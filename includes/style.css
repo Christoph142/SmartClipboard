@@ -1,7 +1,7 @@
 div.SmartClipboard{		color:#000; font:12px tahoma, arial !important;
 						text-decoration:none; text-transform:none; word-spacing:normal; }
 div.SmartClipboard img		{ display:inline; }
-div.SmartClipboard textarea	{ color:#000; font:12px tahoma, arial; padding:0px 5px 10px 5px; margin:0px; }
+div.SmartClipboard textarea	{ color:#000; font:12px tahoma, arial; padding:0px 5px 10px 5px; margin:0px; resize:none; }
 
 div.clipboard_tab{		color:#000; font:12px tahoma, arial; text-decoration:none; text-transform:none; word-spacing:normal;
 						position:relative; top:10px; height:23px; width:auto; transition:background 200ms; -o-transition:background 200ms;
