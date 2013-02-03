@@ -10,7 +10,7 @@ var ctrl_pressed = 0;
 var v_pressed = 0;
 var element_saver;				// keep last active element before opening the menu
 var text_saver;					// its text
-var selectionstart_saver = "-1";// and the cursor start-
+var selectionstart_saver = -1;	// and the cursor start-
 var selectionend_saver;			// and end-position within it to revert its state, if v is pressed multiple times
 var doc = document;				// document (main window), window.top.document (iframe)
 var strings = {					// localized strings
@@ -72,13 +72,12 @@ function finish_initialization(){
 	document.getElementById("info_tab").addEventListener("click", function(){ showpage("SmartClipboard_info"); }, false);
 	document.getElementById("close_tab").addEventListener("click", hide_clipboard, false);
 	
-	document.getElementById("SmartClipboard_frame").addEventListener("mousedown",function(){
-		window.event.preventDefault(); // prevent clicks in the menu from having side-effects on websites
-	},false);
-	document.getElementById("SmartClipboard_frame").addEventListener("click",function(){
-		window.event.preventDefault();
-		window.event.stopPropagation(); // prevent clicks in the menu from having side-effects on websites
-	},false);
+	// prevent clicks in the menu from having side-effects on websites:
+	document.getElementById("SmartClipboard_frame").addEventListener("mousedown", function(e){ e.preventDefault(); e.stopPropagation(); }, false);
+	document.getElementById("SmartClipboard_frame").addEventListener("click", function(e){
+		if(e.target.type !== ""){ // if it's not a link opening a new page
+			e.preventDefault(); e.stopPropagation(); }
+	}, false);
 	
 	ready = 1;
 }
@@ -102,7 +101,7 @@ window.addEventListener("cut", on_copy, false);
 window.addEventListener("copy", on_copy, false);
 function on_copy(){
 	var message = {}; // {} = Object()
-	if(doc.activeElement.className=="SmartClipboard_copy_inhibitor"){ // copying an element back from clipboard
+	if(doc.activeElement.className === "SmartClipboard_copy_inhibitor"){ // copying an element back from clipboard
 		v_pressed = 1; // cause element gets moved to top
 		message.todo = "movetop";
 		message.element = doc.activeElement.id;
@@ -111,10 +110,10 @@ function on_copy(){
 		message.content = {};
 		message.todo = "add";
 		message.content.txt = String(window.getSelection());
-		if(message.content.txt==""){
+		if(message.content.txt === ""){
 			var field = doc.activeElement;
-			message.content.txt = field.value.substring(field.selectionStart,field.selectionEnd);
-			if(message.content.txt=="") return; // don't save empty copies
+			message.content.txt = field.value.substring(field.selectionStart, field.selectionEnd);
+			if(message.content.txt === "") return; // don't save empty copies
 		}
 		message.content.url = document.URL.split("?")[0].split("#")[0];
 		message.content.time = new Date().toLocaleString();
@@ -124,12 +123,12 @@ function on_copy(){
 }
 
 window.addEventListener("keydown", function(event){ // handle key-combos:
-	var key_for_copy_paste = window.navigator.appVersion.indexOf("Mac")!=-1 ? "cmdKey" : "ctrlKey";
+	var key_for_copy_paste = window.navigator.appVersion.indexOf("Mac") != -1 ? "cmdKey" : "ctrlKey";
 
 	var k1 = widget.preferences.additional_key1 ? widget.preferences.additional_key1 : key_for_copy_paste;
 	var k2 = widget.preferences.additional_key2 ? widget.preferences.additional_key2 : "altKey";
 	var menu_keycode = widget.preferences.menu_keycode ? widget.preferences.menu_keycode : 65;
-	if((k1==""?1:event[k1]) && (k2==""?1:event[k2]) && event.keyCode == menu_keycode){	// Key combination out of options page 
+	if((k1 === "" ? 1 : event[k1]) && (k2 === "" ? 1 : event[k2]) && event.keyCode == menu_keycode){ // Key combination out of options page 
 		store_focused_element();
 		show_clipboard("full");
 	}
@@ -150,10 +149,10 @@ function store_focused_element(){
 	
 	if(element_saver.selectionStart != undefined && element_saver.type !== "password"){
 		text_saver = element_saver.value;
-		selectionstart_saver = element_saver.selectionStart;
-		selectionend_saver = element_saver.selectionEnd;
+		selectionstart_saver = parseInt(element_saver.selectionStart);
+		selectionend_saver = parseInt(element_saver.selectionEnd);
 	}
-	else selectionstart_saver = "-1"; // there's no content which has to be copied back later
+	else selectionstart_saver = -1; // there's no content which has to be copied back later
 }
 
 opera.extension.onmessage = function(event){ // Communication with background-script:
@@ -191,8 +190,8 @@ function quickmenu(){
 		if(window.event.keyCode === 67 || window.event.keyCode === 88) on_copy();	// ctrl + c / x
 	}
 	
-	if(window.navigator.appVersion.indexOf("Mac")!=-1)	var key_for_copy_paste = "cmdKey";
-	else												var key_for_copy_paste = "ctrlKey";
+	if(window.navigator.appVersion.indexOf("Mac") != -1)	var key_for_copy_paste = "cmdKey";
+	else													var key_for_copy_paste = "ctrlKey";
 	
 	if(!window.event[key_for_copy_paste]){ // Ctrl/Cmd released
 		if(doc.getElementById("clipboard_tab").style.display == "none"){ // if in slim mode
@@ -232,36 +231,42 @@ function hide_clipboard(){
 
 	// restore focus:
 	try{ element_saver.focus(); }catch(e){ /* element got removed */ }
-	if(selectionstart_saver!="-1"){
-		element_saver.selectionStart = selectionstart_saver-0;
-		element_saver.selectionEnd = selectionend_saver-0;
+	if(selectionstart_saver !== -1){
+		element_saver.selectionStart = selectionstart_saver;
+		element_saver.selectionEnd = selectionend_saver;
 	}
 }
 
 function update_gui(which_part,content_from_bg){
-	if(window.top != window.self) return;
+	if(window.top !== window.self) return;
 	
-	if(ready!=1) window.setTimeout(function(){ update_gui(which_part,content_from_bg); }, 500);
+	if(ready !== 1) window.setTimeout(function(){ update_gui(which_part,content_from_bg); }, 500);
 	else{
-		var entry_active = (window.opera.version()<12.1?"-o-":"")+"linear-gradient(270deg, rgba(0,0,0,0) 1%, rgba(180,255,100,0.9) 20%, rgba(180,255,100,0.9) 80%, rgba(0,0,0,0) 99%)";
+		var entry_active = (window.opera.version()<12.1 ? "-o-" : "")+"linear-gradient(270deg, rgba(0,0,0,0) 1%, rgba(180,255,100,0.9) 20%, rgba(180,255,100,0.9) 80%, rgba(0,0,0,0) 99%)";
 		
-		if(which_part=="clipboard")
-			document.getElementById("SmartClipboard").innerHTML = content_from_bg.length == 0 ?
-				"<div style='text-align:center; position:relative; top:180px;'>"+strings["empty clipboard"]+"</div>":"";
-		else if(which_part=="trash")
-			document.getElementById("SmartClipboard_trash").innerHTML = content_from_bg.length == 0 ?
-				"<div style='text-align:center; position:relative; top:180px;'>"+strings["empty trash"]+"</div>":"";
-		else{
-			content_from_bg = widget.preferences.customtext ? JSON.parse(widget.preferences.customtext) : [];
-			document.getElementById("SmartClipboard_pretext").innerHTML = content_from_bg.length == 0 ?
-				"<div style='text-align:center; position:relative; top:180px;'>"+strings["empty custom"]+"</div>":"";
+		if(which_part === "clipboard")
+		{
+			document.getElementById("SmartClipboard").innerHTML = content_from_bg.length === 0 ?
+				"<div style='text-align:center; position:relative; top:180px;'>"+strings["empty clipboard"]+"</div>" : "";
+			var entry_id_firstpart = "c_SC_";
 		}
-		
-		for(i=0; i<content_from_bg.length; i++){
-			if(which_part=="clipboard") var entry_id = "c_SC_"+i;
-			else if(which_part=="trash")var entry_id = "t_SC_"+i;
-			else						var entry_id = "p_SC_"+i;
+		else if(which_part === "trash")
+		{
+			document.getElementById("SmartClipboard_trash").innerHTML = content_from_bg.length === 0 ?
+				"<div style='text-align:center; position:relative; top:180px;'>"+strings["empty trash"]+"</div>" : "";
+			var entry_id_firstpart = "t_SC_";
+		}
+		else /* customtext */
+		{
+			content_from_bg = widget.preferences.customtext ? JSON.parse(widget.preferences.customtext) : [];
+			document.getElementById("SmartClipboard_pretext").innerHTML = content_from_bg.length === 0 ?
+				"<div style='text-align:center; position:relative; top:180px;'>"+strings["empty custom"]+"</div>" : "";
+			var entry_id_firstpart = "p_SC_";
+		}							 
 			
+		for(i=0; i<content_from_bg.length; i++)
+		{
+			var entry_id = entry_id_firstpart+i;
 			var entry = document.createElement("div");
 			entry.className = "clipboard_entry";
 			entry.onmouseover = function(){ this.style.backgroundImage = entry_active; };
@@ -282,6 +287,10 @@ function update_gui(which_part,content_from_bg){
 			entry_textarea.style = "width:100%; height:auto; color:#000; background-color:rgba(0,0,0,0); cursor:pointer; border:0px; overflow:hidden;";
 			entry_textarea.rows = 2;
 		}
+		
+		// if old entry got re-activated:
+		if(doc.getElementById("SmartClipboard_frame").style.display === "inline" && which_part === "clipboard")
+			document.getElementById("c_SC_0").parentNode.click();
 	}
 }
 
@@ -298,17 +307,17 @@ function add_css_to_page(css){
 			try{
 				var head = document.createElement("head");
 				head.appendChild(style);
-				document.body.appendChild(head);
+				document.appendChild(head);
 			}catch(e){ /* SVGs don't have body/head-section */ }
 		}
 	}
-	else window.setTimeout(function(){add_css_to_page(css);},200);
+	else window.setTimeout(function(){add_css_to_page(css);}, 200);
 }
 
 function set_custom_style(clipboard){
-	if(window.top != window.self) return;
+	if(window.top !== window.self) return;
 	
-	if(clipboard=="") clipboard = document.getElementById("SmartClipboard_frame");
+	if(clipboard === "") clipboard = document.getElementById("SmartClipboard_frame");
 	
 	if(widget.preferences["frame.backgroundColor"]) clipboard.style.backgroundColor = widget.preferences["frame.backgroundColor"];
 }
