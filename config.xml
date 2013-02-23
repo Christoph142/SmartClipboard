@@ -1,13 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<widget xmlns="http://www.w3.org/ns/widgets" id="https://github.com/Christoph142/SmartClipboard" defaultlocale="en" version="1.3.1" >
+<widget xmlns="http://www.w3.org/ns/widgets" id="https://github.com/Christoph142/SmartClipboard" defaultlocale="en" version="1.3.2" >
 
 	<name>Smart Clipboard</name>
 	<author href="http://my.opera.com/christoph142/blog">Christoph D.</author>
 	<icon src="images/icon128.png"/>
 	
+	<description xml:lang="ar">لـجعـــل حـــافظـة المنــسوخــــــــات أذكـــــى</description>
 	<description xml:lang="de">Macht deine Zwischenablage smarter</description>
 	<description xml:lang="en">Makes your clipboard smarter</description>
 	<description xml:lang="fr">Rend ton presse-papier plus intelligent</description>
 	<description xml:lang="pl">Udostępnia ci sprytniejszy schowek</description>
-  
+	
 </widget>
