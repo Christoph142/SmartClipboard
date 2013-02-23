@@ -23,6 +23,8 @@ div.clipboard_entry span{ font:12px tahoma, arial normal; text-decoration:none; 
 						box-shadow:0 0 10px #000; overflow:hidden; border-radius:5px; text-align:left; padding:0 0 0 10px;
 						background:rgba(0,0,0,0.5) url(http://www.codog.de/SmartClipboard/frame1.png); }
 						
+#SmartClipboard_frame.rtl{ text-align:right; padding:0 10px 0 0; }
+	
 #SmartClipboard{		z-index:9999; }
 
 #SmartClipboard_trash{ 	display:none; }

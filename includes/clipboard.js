@@ -53,7 +53,7 @@ window.opera.addEventListener("AfterEvent.DOMContentLoaded", function(){
 	if(opera.extension.getFile){
 		var s = opera.extension.getFile("/interface_strings.txt");
 		var fr = new FileReader();
-		fr.readAsText(s,"UTF-8");
+		fr.readAsText(s);
 		fr.onload = function(event){
 			try{ strings = JSON.parse(event.target.result); }catch(e){ opera.postError("Smart Clipboard: localization file is corrupt"); }
 			finish_initialization();
@@ -78,6 +78,13 @@ function finish_initialization(){
 		if(e.target.type !== ""){ // if it's not a link opening a new page
 			e.preventDefault(); e.stopPropagation(); }
 	}, false);
+	
+	// mirror interface for Arabic (rtl languages):
+	if(strings["lang"] === "ar"){
+		document.getElementById("SmartClipboard_frame").className = "rtl";
+		document.getElementById("close_tab").style.right = "auto";
+		document.getElementById("close_tab").style.left = "10px";
+	}
 	
 	ready = 1;
 }
