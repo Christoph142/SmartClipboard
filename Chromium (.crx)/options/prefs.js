@@ -229,11 +229,8 @@ function localize()
 	}
 	
 	//help:
-	document.getElementById("help").addEventListener("click", function(){
-		window.open("http://my.opera.com/christoph142/blog/2013/06/27/help");
-	}, false);
 	document.getElementById("close_help").addEventListener("click", function(e){
-		e.stopPropagation();
+		e.preventDefault(); e.stopPropagation();
 		document.getElementById("help").style.display = "none";
 	}, false);
 }

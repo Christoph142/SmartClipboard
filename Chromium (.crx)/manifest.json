@@ -1,25 +1,25 @@
 {	
-	"name"				: "modern scroll",
+	"name"				: "SmartClipboard",
 	"description"		: "__MSG_description__",
 	"developer"			: {"name" : "Christoph D."},
 	"homepage_url"		: "http://my.opera.com/christoph142/blog",
 	
 	"default_locale"	: "en",
-	"version"			: "3.1",
-	"icons"				: { "16": "images/contextmenu.png", "128": "images/icon@2x.png" },
+	"version"			: "2.0",
+	"icons"				: { "16": "images/icon16.png", "128": "images/icon128.png" },
 	
 	"content_scripts" :
 	[{
 		  "matches"		: ["<all_urls>"],
-		  "css"			: ["includes/modern_scroll.css"],
-		  "js"			: ["includes/modern_scroll.js"],
+		  "css"			: ["includes/clipboard.css"],
+		  "js"			: ["includes/clipboard.js"],
 		  "run_at"		: "document_start",
 		  "all_frames"	: true
 	}],
 	
 	"background"		: {"scripts": ["background.js"]},
   
-	"permissions"		: ["contextMenus", "storage"],
+	"permissions"		: ["contextMenus", "storage", "clipboardRead", "clipboardWrite"],
 	"options_page"		: "options/options.html",
 	
 	"manifest_version"	: 2
