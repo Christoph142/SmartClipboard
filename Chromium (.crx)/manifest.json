@@ -17,10 +17,11 @@
 		  "all_frames"	: true
 	}],
 	
-	"background"		: {"scripts": ["background.js"]},
+	"background"		: { "scripts" : ["background.js"], "persistent" : false},
   
 	"permissions"		: ["contextMenus", "storage", "clipboardRead", "clipboardWrite", "tabs"],
 	"options_page"		: "options/options.html",
 	
+	"offline_enabled"	: true,
 	"manifest_version"	: 2
 }
