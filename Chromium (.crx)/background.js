@@ -1,7 +1,8 @@
 var w = null;
 // retrieve and store settings (filled with default values) for all pages:
-chrome.storage.sync.get( null, function(storage){
+chrome.storage.local.get( null, function(storage){
 	w = {
+	"isOpen" : 					false,
 	"trash_is_active" :			(!storage["trash_is_active"]		? "1" : storage["trash_is_active"]),
 	"clear_trash_on_exit" :		(!storage["clear_trash_on_exit"]	? "1" : storage["clear_trash_on_exit"]),
 	"clear_history_on_exit" :	(!storage["clear_history_on_exit"]	? "0" : storage["clear_history_on_exit"]),
@@ -34,18 +35,24 @@ chrome.runtime.onMessage.addListener( function(request, sender, sendResponse){
 		
 		update_sc(sendResponse);
 	}
+	else if (request.data === "isOpen") w.isOpen = request.isOpen;
 });
 
 function update_sc(sendResponse)
 {
+	console.log("length:", w.clipboard.length, "max:", w.max_entries);
 	if(w.clipboard.length > w.max_entries)
 	{
-		if (w.trash_is_active !== "0") 	trash.unshift(w.clipboard.pop());
+		if (w.trash_is_active !== "0") 	w.trash.unshift(w.clipboard.pop());
 		else 							w.clipboard.pop();
 	}
-	
+
 	if(sendResponse) sendResponse(w);
 	else 			 update_active_tab();
+
+	chrome.storage.local.set({ "clipboard" : w.clipboard });
+	chrome.storage.local.set({ "trash" : w.trash });
+	chrome.storage.local.set({ "customtext" : w.customtext });
 }
 
 function update_active_tab()
