@@ -1,6 +1,6 @@
 # Smart Clipboard (Opera extension)
 
-[Download Smart Clipboard](https://addons.opera.com/extensions/details/smart-clipboard/) from the Opera Extension Catlog.
+[Download Smart Clipboard](https://addons.opera.com/extensions/details/smart-clipboard/) from the Opera Extension Catalog
 
 Did you ever accidentally overwrite stuff in your clipboard, which you needed again afterwards?
 
