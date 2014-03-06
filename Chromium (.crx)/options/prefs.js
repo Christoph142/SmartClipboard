@@ -1,11 +1,17 @@
 var storage = null;
-chrome.runtime.getBackgroundPage( function (bg){
+chrome.runtime.getBackgroundPage( function (bg)
+{
 	storage = bg.w;
 	restoreprefs();
 });
 
-window.addEventListener("DOMContentLoaded", restoreprefs, false);
-window.addEventListener("DOMContentLoaded", localize, false);
+window.addEventListener("DOMContentLoaded", DocumentReady, false);
+
+function DocumentReady()
+{
+	restoreprefs();
+	localize();
+}
 
 window.addEventListener("change", function(e) // save preferences:
 {
