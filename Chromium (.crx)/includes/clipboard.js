@@ -48,8 +48,8 @@ clipboard.addEventListener("click", function(e){
 	if(e.target.type !== ""){ e.preventDefault(); e.stopPropagation(); } // if it's not a link opening a new page
 }, false);
 
-// mirror interface for Arabic (rtl languages):
-if(chrome.i18n.getMessage("lang") === "ar"){
+// mirror interface for rtl languages:
+if(chrome.i18n.getMessage("@@bidi_dir") === "rtl"){
 	clipboard.className = "rtl";
 	document.getElementById("close_tab").style.right = "auto";
 	document.getElementById("close_tab").style.left = "10px";
@@ -251,9 +251,9 @@ function update_gui(which_part)
 		var entry_id = entry_id_firstpart+i;
 		var entry = document.createElement("div");
 		entry.className = "entry";
-		entry.addEventListener("click", function(){
+		entry.addEventListener("click", function(e){
 			this.className = "entry active";
-			//this.childNodes[1].focus(); //################
+			chrome.runtime.sendMessage({ "data" : "movetop", "element" : this.lastChild.id }, update_gui_all);
 		}, false);
 		entry.innerHTML = "<div class='url'>\n"+
 							"<img src='"+content[i].icon+"' />\n"+

@@ -9,7 +9,7 @@ chrome.storage.local.get( null, function(storage){
 	"max_entries" :				(!storage["max_entries"]			? "5" : storage["max_entries"]),
 	
 	"clipboard" :				(!storage["clipboard"] || storage["clear_history_on_exit"] === "1"	? []  : storage["clipboard"]),
-	"trash" :					(!storage["trash"]	   || storage["clear_trash_on_exit"]   === "1"	? []  : storage["trash"]),
+	"trash" :					(!storage["trash"]	   || storage["clear_trash_on_exit"]   !== "0"	? []  : storage["trash"]),
 	"customtext" :				(!storage["customtext"]												? []  : storage["customtext"])
 	};
 
@@ -33,6 +33,8 @@ chrome.runtime.onMessage.addListener( function(request, sender, sendResponse){
 		else if	(request.element[0] === "t") 	w.clipboard.unshift(w.trash.splice(request.element.split("_")[2]-0,1)[0]);
 		else 									w.clipboard.unshift(w.customtext[request.element.split("_")[2]-0]);
 		
+		//w.clipboard[0].txt.execCommand("Copy", false, null); // copy back into clipboard
+		
 		update_sc(sendResponse);
 	}
 	else if (request.data === "isOpen") w.isOpen = request.isOpen;
@@ -40,7 +42,6 @@ chrome.runtime.onMessage.addListener( function(request, sender, sendResponse){
 
 function update_sc(sendResponse)
 {
-	console.log("length:", w.clipboard.length, "max:", w.max_entries);
 	if(w.clipboard.length > w.max_entries)
 	{
 		if (w.trash_is_active !== "0") 	w.trash.unshift(w.clipboard.pop());
